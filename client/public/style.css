@@ -12,6 +12,10 @@ nav{
     margin-top: auto;
 }
 
-a{
-    font-size: 20px;
+a {
+    font-size: 10px;
+}
+
+.welcom {
+    margin-top: 280px;
 }
