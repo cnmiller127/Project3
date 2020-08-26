@@ -71,6 +71,9 @@ function MovieDetail(props) {
 
   }
 
+
+
+
   const handleHide = function(e) {
       
   }
@@ -93,7 +96,7 @@ function MovieDetail(props) {
         <Button left="true" color="success" value="DVD" onClick={handleSave}>DVD</Button>
         <Button left="true" color="primary" value="BluRay" onClick={handleSave}>Blu-Ray</Button>
         <Button left="true" color="warning" value="VOD" onClick={handleSave}>VOD</Button>
-        <Button left="true" color="info" value="WishList" onClick={handleSave}>Wishlist</Button>
+        <Button left="true" color="info" value="WishList" onClick={() => handleSave({wishlist:true})}>Wishlist</Button>
 
       </Media>
     </Media>
