@@ -39,13 +39,6 @@ function App() {
         })
     }, []);
 
-    const logout = () => {
-        API.logout().then(() => {
-            dispatch({
-                type: AUTH_SET_LOGGED_OUT
-            })
-        })
-    }
 
     return (
 

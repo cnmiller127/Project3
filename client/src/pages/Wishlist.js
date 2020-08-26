@@ -36,7 +36,7 @@ const WishlistTab = () => {
       switch (tab) {
         case "All":
           moviesArray = [];
-          const allMovies = await SqlAPI.getMovies();
+          const allMovies = await SqlAPI.getWishList();
           allMovies.forEach((movie) => moviesArray.push(movie));
           break;
         default:
