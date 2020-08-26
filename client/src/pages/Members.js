@@ -16,7 +16,8 @@ import {
   ListGroup,
   ListGroupItem,
   Jumbotron, 
-  Container
+  Container,
+  Media
 } from "reactstrap";
 
 
@@ -59,7 +60,7 @@ const debouncedSearchTerm = useDebounce(formObject, 800);
     catch(err){
         throw err;
     }
-}
+  }
 
 function handleInputChange(event) {
   //console.log(event.target.value)
@@ -78,24 +79,30 @@ const handleClick = (movie) => {
     }
   })
   history.push("/movieDetail");
-  
+  }
 }
 
- }
+const handleImg  = function(string) {
+  if (string !== "N/A") {
+    return string;
+  } else {
+    return "https://bit.ly/3hxWg5k";
+  }
+}
 
 
     return ( 
       <div>
-    <Jumbotron>
-      <h1 className ="hdr">SEARCH FOR MOVIES!</h1>
+    <Jumbotron className="homeJumbo">
+      <h1 className="hdr">SEARCH FOR MOVIES!</h1>
     </Jumbotron>
     
       <Container fluid>
         <Row>
-          <Col size = "12">
+          <Col className="searchBody" sm="6">
           
            
-            <label className = "label">Search by title or...: </label>
+            <label className="label">Search by title or...: </label>
             <Form>
               <Input
                 onChange={handleInputChange}
@@ -107,32 +114,42 @@ const handleClick = (movie) => {
           </Row>
           
           <Row>
-          <Col size = "12">
+          <Col className="searchBody" sm="10">
             {movies.length ? (
               <div>
-              <label className = "label">Click "View Info" to view details and save the respecitive movie to your movie shelf!</label>
+              <label className="label">Click "More Info" to view details and save the respecitive movie to your movie shelf!</label>
               
               <ListGroup>
                 {movies.map(movie => {
                   return (
                     <ListGroupItem key={movie.imdbID}>
-                      {(movie.Poster) ? (
-                      <img className = "movie-img pr-2" src = {movie.Poster } />) : 
-                     (<h3>Image Unavailable</h3>)}
+                      {/* <img className="movie-img pr-2 poster" src={handleImg(movie.Poster)} />
                         <strong>
                           {movie.Title}
-                        </strong>
-                        {!movie.saved ? (
-                        <SaveBtn onClick={() => handleClick(movie)} />
-                        ) : null }
+                        </strong>                     
                         <hr></hr>
+                        <Button color="info">Movie Details</Button> */}
+                      <Media>
+                            <Media left href={handleImg(movie.Poster)}>
+                              <Media className="searchPoster"
+                                object
+                                src={handleImg(movie.Poster)}
+                                alt={movie.Title}
+                              />
+                            </Media>
+                            <Media body className="movieBody">
+                              <Media heading><strong>{movie.Title}</strong></Media>
+                              <br />
+                              <Button onClick={() => handleClick(movie)} color="info">More Info</Button>
+                            </Media>
+                          </Media>
                     </ListGroupItem>
                   );
                 })}
               </ListGroup>
               </div>
             ) : (
-              <h3 className = "label">No Results to Display</h3>
+              <h3 className="label">No Results to Display</h3>
             )}
           </Col>
         </Row>

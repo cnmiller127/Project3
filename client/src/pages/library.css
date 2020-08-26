@@ -20,17 +20,24 @@
 .poster {
     height: 250px;
     width: auto;
+    margin-left: 50px;
 }
 
-.list-group-item {
+.movieItem {
     width: 100%;
 }
 
-.media-body {
+.movieBody {
     padding: 25px;
     margin-right: 10px;
 }
 
 .deleteBtn {
-    margin-top: 50px;
+    margin-top: 25px;
+}
+
+.largePoster {
+    height: 300px;
+    width: auto;
+    margin-left: 50px
 }

@@ -142,7 +142,7 @@ const LibraryTab = () => {
                   <ListGroup>
                     {movieList.map((movie) => (
                       <Row>
-                        <ListGroupItem key={movie.id}>
+                        <ListGroupItem className="movieItem" key={movie.id}>
                           <Media>
                             <Media left href={movie.poster}>
                               <Media className="poster"
@@ -151,11 +151,11 @@ const LibraryTab = () => {
                                 alt={movie.title}
                               />
                             </Media>
-                            <Media body>
+                            <Media body className="movieBody">
                               <Media heading>{movie.title}</Media>
                               {movie.synopsis}
                               <br />
-                              <Button c="deleteBtn" outline color="danger" size="sm" onClick={handleDelete(movie.id)}>Remove from Shelf</Button>
+                              <Button className="deleteBtn" outline color="danger" size="sm" onClick={handleDelete(movie.id)}>Remove from Shelf</Button>
                             </Media>
                           </Media>
                         </ListGroupItem>
@@ -176,7 +176,7 @@ const LibraryTab = () => {
                   <ListGroup>
                     {movieList.map((movie) => (
                       <Row>
-                        <ListGroupItem key={movie.id}>
+                        <ListGroupItem className="movieItem" key={movie.id}>
                           <Media>
                             <Media left href={movie.poster}>
                               <Media className="poster"
@@ -185,7 +185,7 @@ const LibraryTab = () => {
                                 alt={movie.title}
                               />
                             </Media>
-                            <Media body>
+                            <Media body className="movieBody">
                               <Media heading>{movie.title}</Media>
                               {movie.synopsis}
                               <br />
@@ -210,7 +210,7 @@ const LibraryTab = () => {
                   <ListGroup>
                     {movieList.map((movie) => (
                       <Row>
-                        <ListGroupItem key={movie.id}>
+                        <ListGroupItem className="movieItem" key={movie.id}>
                           <Media>
                             <Media left href={movie.poster}>
                               <Media className="poster"
@@ -219,11 +219,11 @@ const LibraryTab = () => {
                                 alt={movie.title}
                               />
                             </Media>
-                            <Media body>
+                            <Media body className="movieBody">
                               <Media heading>{movie.title}</Media>
                               {movie.synopsis}
                               <br />
-                              <Button c="deleteBtn" outline color="danger" size="sm" onClick={handleDelete(movie.id)}>Remove from Shelf</Button>
+                              <Button className="deleteBtn" outline color="danger" size="sm" onClick={handleDelete(movie.id)}>Remove from Shelf</Button>
                             </Media>
                           </Media>
                         </ListGroupItem>
@@ -244,7 +244,7 @@ const LibraryTab = () => {
                   <ListGroup>
                     {movieList.map((movie) => (
                       <Row>
-                        <ListGroupItem key={movie.id}>
+                        <ListGroupItem className="movieItem" key={movie.id}>
                           <Media>
                             <Media left href={movie.poster}>
                               <Media className="poster"
@@ -253,7 +253,7 @@ const LibraryTab = () => {
                                 alt={movie.title}
                               />
                             </Media>
-                            <Media body>
+                            <Media body className="movieBody">
                               <Media heading>{movie.title}</Media>
                               {movie.synopsis}
                               <br />

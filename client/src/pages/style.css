@@ -2,7 +2,7 @@
     float: left;
 }
 .label{
-    
+    text-align: center;
     font-weight: 900;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
 }
@@ -11,7 +11,7 @@ input {
 }
 
 .list-group-item {
-    width: 50%
+    width: 100%
 }
 
 .nav-link {
@@ -24,3 +24,37 @@ a:hover {
    
 }
 
+.homeJumbo {
+    align-content: center;
+    text-align: center;
+    height: 200px;
+    background-image: url("https://bit.ly/2Qri4DN");
+    background-position: center 50%;
+    background-size: cover;
+    color: white;
+    text-shadow: 2px 2px black;
+}
+
+.searchBody {
+    margin: 0 auto;
+}
+
+.movieDetail {
+    align-content: center;
+    margin: 100px auto;
+}
+
+.formatBtn {
+    margin: 15px;
+}
+
+.searchPoster {
+    height: 250px;
+    width: auto;
+    
+}
+
+.detailHeader {
+    text-align: center;
+    margin-top: 50px;
+}
