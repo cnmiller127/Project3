@@ -19,16 +19,17 @@ function Login() {
     event.preventDefault();
     const loginData = {
       email: emailRef.current.value,
-      password: passwordRef.current.value,
+      password: passwordRef.current.value
     };
     API.login(loginData)
       .then((response) => {
         setShowError(false);
-        const { email } = response.data;
+        const { email, username } = response.data;
         dispatch({
           type: AUTH_SET_LOGGED_IN,
           data: {
             email,
+            username
           },
         });
       })

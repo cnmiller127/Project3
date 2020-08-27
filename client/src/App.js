@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Members from "./pages/Members";
 import Library from "./pages/Library";
+import Wishlist from "./pages/Wishlist";
 import { useStoreContext } from './utils/GlobalStore';
 import API from './utils/API';
 import { AUTH_SET_LOGGED_IN, AUTH_SET_LOGGED_OUT } from "./utils/actions";
@@ -85,6 +86,7 @@ function App() {
                                 <Route exact path="/" component={Members} />
                                 <Route exact path="/library" component={Library} />
                                 <Route exact path="/movieDetail" component={MovieDetail} />
+                                <Route exact path="/wishlist" component={Wishlist} />
                             </MovieProvider>
                             </>
                             )

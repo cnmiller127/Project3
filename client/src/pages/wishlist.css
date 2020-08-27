@@ -1,12 +1,9 @@
-.libraryTabs {
-    align-content: center;
-    margin: 25px auto;
-}
 
-.jumbotronLibrary {
+
+.jumbotronWishlist {
     align-content: center;
     text-align: center;
-    background-image: url("https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80");
+    background-image: url("https://images.unsplash.com/25/delicate.jpg?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=926&q=80");
     background-position: center 53%;
     background-size: cover;
     color: white;
@@ -20,7 +17,7 @@
 .poster {
     height: 250px;
     width: auto;
-    margin-left: 20px;
+    margin-left: 50px;
 }
 
 .movieItem {
@@ -28,8 +25,8 @@
 }
 
 .movieBody {
+    padding: 25px;
     margin-right: 10px;
-    padding-left: 20px;
 }
 
 .deleteBtn {
@@ -37,10 +34,14 @@
 }
 
 .largePoster {
-    height: 150px;
+    height: 400px;
     width: auto;
-    margin-left: 10px;
-    display: block;
+    margin-left: 50px
+}
+
+.wishList {
+    align-content: center;
+    margin: 25px auto;
 }
 
 @media (min-width: 576px) {
