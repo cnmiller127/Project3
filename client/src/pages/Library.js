@@ -148,26 +148,27 @@ const LibraryTab = () => {
           <TabContent activeTab={activeTab}>
             <TabPane tabId="All">
               <Row>
-                <Col className="header" sm="12">
+                <Col className="header" xs="11" sm="12">
                   <h4><strong>Your Library</strong></h4>
                 </Col>
               </Row>
               <Row>
-                <Col >
+                <Col xs="12">
                   <ListGroup>
                     {movieList.map((movie) => (
                       <Row>
                         <ListGroupItem className="movieItem" key={movie.id}>
                           <Media>
-                            <Media left href={movie.poster}>
-                              <Media className="poster"
+                            <Media left top href={movie.poster}>
+                              <Media  
                                 object
+                                className="poster"
                                 src={movie.poster}
                                 alt={movie.title}
                               />
                             </Media>
                             <Media body className="movieBody">
-                              <Media heading><strong>{movie.title} {'\('+movie.year+'\)'} {renderBadges(movie)}</strong></Media>
+                              <Media heading><strong>{movie.title} {'('+movie.year+')'} {renderBadges(movie)}</strong></Media>
                               {movie.synopsis}
                               <br />
                               <Button className="deleteBtn" outline color="danger" size="sm" id={movie.id} onClick={handleDelete}>Remove from Shelf</Button>
@@ -182,7 +183,7 @@ const LibraryTab = () => {
             </TabPane>
             <TabPane tabId="DVD">
               <Row>
-                <Col className="header" sm="12">
+                <Col className="header" xs="12">
                   <h4><strong>Your DVDs</strong></h4>
                 </Col>
               </Row>
@@ -201,7 +202,7 @@ const LibraryTab = () => {
                               />
                             </Media>
                             <Media body className="movieBody">
-                              <Media heading><strong>{movie.title} {'\('+movie.year+'\)'}</strong></Media>
+                              <Media heading><strong>{movie.title} {'('+movie.year+')'}</strong></Media>
                               {movie.synopsis}
                               <br />
                               <Button className="deleteBtn" outline color="danger" size="sm" id={movie.id} onClick={handleDelete} >Remove from Shelf</Button>
@@ -216,7 +217,7 @@ const LibraryTab = () => {
             </TabPane>
             <TabPane tabId="Blu-Ray">
               <Row>
-                <Col className="header" sm="12">
+                <Col className="header" xs="12">
                   <h4><strong>Your Blu-Rays</strong></h4>
                 </Col>
               </Row>
@@ -235,7 +236,7 @@ const LibraryTab = () => {
                               />
                             </Media>
                             <Media body className="movieBody">
-                              <Media heading><strong>{movie.title} {'\('+movie.year+'\)'}</strong></Media>
+                              <Media heading><strong>{movie.title} {'('+movie.year+')'}</strong></Media>
                               {movie.synopsis}
                               <br />
                               <Button className="deleteBtn" outline color="danger" size="sm" id={movie.id} onClick={handleDelete} >Remove from Shelf</Button>
@@ -250,7 +251,7 @@ const LibraryTab = () => {
             </TabPane>
             <TabPane tabId="VOD">
               <Row>
-                <Col className="header" sm="12">
+                <Col className="header" xs="12">
                   <h4><strong>Your VOD Purchases</strong></h4>
                 </Col>
               </Row>
@@ -269,7 +270,7 @@ const LibraryTab = () => {
                               />
                             </Media>
                             <Media body className="movieBody">
-                              <Media heading><strong>{movie.title} {'\('+movie.year+'\)'}</strong></Media>
+                              <Media heading><strong>{movie.title} {'('+movie.year+')'}</strong></Media>
                               {movie.synopsis}
                               <br />
                               <Button className="deleteBtn" outline color="danger" size="sm" id={movie.id} onClick={handleDelete} >Remove from Shelf</Button>
