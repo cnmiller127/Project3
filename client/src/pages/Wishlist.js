@@ -21,8 +21,9 @@ import "./wishlist.css";
 
 
 const WishlistTab = () => {
-  const [movieList, setMovieList] = useState(moviesArray);
   var moviesArray = [];
+  const [movieList, setMovieList] = useState(moviesArray);
+  
 
   useEffect(() => {
     retrieveMovies();
