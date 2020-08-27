@@ -252,14 +252,14 @@ function MovieDetail(props) {
   };
 
   return (
-    <Container>
+    <Container fluid>
       <h1 className="detailHeader">
         <strong>Movie Details</strong>
       </h1>
       <Row>
-        <Col sm="12">
+        <Col xs="12" sm="10">
           <Media className="movieDetail">
-            <Media left>
+            <Media className="mediaPoster">
               <Media
                 className="largePoster"
                 object
@@ -276,9 +276,9 @@ function MovieDetail(props) {
                 </h2>
               </Media>
               <strong>Directed by {movie.Director}</strong>
-              <br />
+              <hr />
               <strong>Starring: {movie.Actors}</strong>
-              <br />
+              <hr />
               {handleSynopsis(movie.Plot)}
               <hr />
               <h3>Own it? Click the formats you own</h3>

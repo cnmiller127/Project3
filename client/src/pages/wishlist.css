@@ -15,18 +15,20 @@
 }
 
 .poster {
-    height: 250px;
+    height: 150px;
     width: auto;
-    margin-left: 50px;
+    margin-top: 25px;
+    margin-left: 10px;
 }
 
 .movieItem {
     width: 100%;
+    padding: 10px;
 }
 
 .movieBody {
-    padding: 25px;
     margin-right: 10px;
+    padding: 0 25px 25px 25px;
 }
 
 .deleteBtn {
@@ -34,9 +36,10 @@
 }
 
 .largePoster {
-    height: 400px;
+    height: 150px;
     width: auto;
-    margin-left: 50px
+    margin-left: 10px;
+    display: block;
 }
 
 .wishList {
@@ -54,6 +57,7 @@
     .movieDetail {
         height: 250px;
         width: auto;
+
     }
 }
 
@@ -64,3 +68,6 @@
         margin-left: 50px;
     }
 }
+
+
+

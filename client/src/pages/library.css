@@ -3,6 +3,7 @@
     margin: 25px auto;
 }
 
+
 .jumbotronLibrary {
     align-content: center;
     text-align: center;
@@ -12,24 +13,31 @@
     color: white;
 }
 
+.active.nav-link {
+    background-color: transparent;
+}
+
 .header {
     text-align: center;
     margin: 20px auto;
 }
 
 .poster {
-    height: 250px;
+    height: 150px;
     width: auto;
-    margin-left: 20px;
+    margin-top: 0;
 }
 
 .movieItem {
     width: 100%;
+    padding: 10px;
+    margin: 0 auto;
 }
 
 .movieBody {
+    margin-top: 25px;
     margin-right: 10px;
-    padding-left: 20px;
+    padding: 0 25px 25px 25px;
 }
 
 .deleteBtn {
@@ -53,6 +61,7 @@
     .movieDetail {
         height: 250px;
         width: auto;
+
     }
 }
 

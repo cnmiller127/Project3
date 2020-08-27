@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-  TabContent,
-  TabPane,
-  Nav,
-  NavItem,
-  NavLink,
   Button,
   Row,
   Col,
@@ -15,14 +10,14 @@ import {
   Media,
   Badge
 } from "reactstrap";
-import classnames from "classnames";
 import SqlAPI from "../utils/SQL-API";
 import "./wishlist.css";
 
 
 const WishlistTab = () => {
-  const [movieList, setMovieList] = useState(moviesArray);
   var moviesArray = [];
+  const [movieList, setMovieList] = useState(moviesArray);
+  
 
   useEffect(() => {
     retrieveMovies();
@@ -89,7 +84,7 @@ const WishlistTab = () => {
                         />
                       </Media>
                       <Media body className="movieBody">
-                        <Media heading><strong>{movie.title} {'\('+movie.year+'\)'} {renderBadges(movie)}</strong></Media>
+                        <Media heading><strong>{movie.title} {'('+movie.year+')'} {renderBadges(movie)}</strong></Media>
                         {movie.synopsis}
                         <br />
                         <Button className="deleteBtn" outline color="danger" size="sm" id={movie.id} onClick={handleDelete}>Remove from Wishlist</Button>
