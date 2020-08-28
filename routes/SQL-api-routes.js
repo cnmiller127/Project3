@@ -73,10 +73,22 @@ module.exports = function (app) {
     }),
     app.delete("/api/movies/:id", function (req, res) {
       db.Movie.destroy({
+        format: req.body.format,
+        wishlist: req.body.wishlist
+      },
+      {
         where: { id: req.params.id },
       }).catch(function (err) {
         res.status(500).json(err);
         console.log(req.body);
       });
-    });
+    }),
+    app.update("/api/movies/:id", function (req, res) {
+      db.Movie.update({
+        where: { id: req.params.id },
+      }).catch(function (err) {
+        res.status(500).json(err);
+        console.log(req.body);
+      })
+    })
 };
