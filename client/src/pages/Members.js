@@ -107,7 +107,7 @@ const handleImg  = function(string) {
           
            
             <label className="label">Search by title or...: </label>
-            <Form>
+            <Form onSubmit = {event => {event.preventDefault()}}>
               <Input
                 onChange={handleInputChange}
                 name="title"
