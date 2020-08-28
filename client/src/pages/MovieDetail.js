@@ -261,7 +261,7 @@ function MovieDetail(props) {
       </h1>
       <Row>
         <Col xs="12" sm="10">
-        <div><a className="backBtn" onClick={history.goBack}>&lt; Go Back</a></div>
+        <div><Button outline color="secondary" className="backBtn" onClick={history.goBack}>&lt; Go Back</Button></div>
           <Media className="movieDetail">
             <Media className="mediaPoster">
               <Media

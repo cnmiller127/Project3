@@ -83,6 +83,10 @@ input {
     margin-top: 10px;
 }
 
+.infoBtn {
+    margin-left: 10px;
+}
+
 @media (min-width: 576px) {
     .mediaPoster {
         float: left;
@@ -93,5 +97,11 @@ input {
     .backBtn {
         margin-left: 35px;
         margin-bottom: 40px;
+    }
+}
+
+@media (min-width: 992px) {
+    .backBtn {
+        margin-left: 55px;
     }
 }

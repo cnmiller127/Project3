@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from 'react-router-dom';
-import {useMovieContext} from "../utils/movieContext";
+import { useHistory } from "react-router-dom";
+import { useMovieContext } from "../utils/movieContext";
 import {
   TabContent,
   TabPane,
@@ -17,7 +17,7 @@ import {
   Media,
   Badge,
 } from "reactstrap";
-import {MOVIE_ID} from "../utils/actions";
+import { MOVIE_ID } from "../utils/actions";
 import classnames from "classnames";
 import SqlAPI from "../utils/SQL-API";
 import "./library.css";
@@ -37,8 +37,6 @@ const LibraryTab = () => {
   useEffect(() => {
     retrieveMovies(activeTab);
   }, [activeTab]);
-
-
 
   const retrieveMovies = async (tab) => {
     try {
@@ -209,6 +207,8 @@ const LibraryTab = () => {
                               </Media>
                               {movie.synopsis}{" "}
                               <Button
+                                className="infoBtn"
+                                size="sm"
                                 onClick={() => handleClick(movie)}
                                 color="info"
                               >
@@ -265,6 +265,8 @@ const LibraryTab = () => {
                               </Media>
                               {movie.synopsis}{" "}
                               <Button
+                                className="infoBtn"
+                                size="sm"
                                 onClick={() => handleClick(movie)}
                                 color="info"
                               >
@@ -321,6 +323,8 @@ const LibraryTab = () => {
                               </Media>
                               {movie.synopsis}{" "}
                               <Button
+                                className="infoBtn"
+                                size="sm"
                                 onClick={() => handleClick(movie)}
                                 color="info"
                               >
@@ -377,6 +381,8 @@ const LibraryTab = () => {
                               </Media>
                               {movie.synopsis}{" "}
                               <Button
+                                className="infoBtn"
+                                size="sm"
                                 onClick={() => handleClick(movie)}
                                 color="info"
                               >
