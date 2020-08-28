@@ -315,6 +315,7 @@ function MovieDetail(props) {
       <h1 className="detailHeader">
         <strong>Movie Details</strong>
       </h1>
+      {(movie.Title) ? (
       <Row>
         <Col xs="12" sm="10">
         <div><Button outline color="secondary" className="backBtn" onClick={history.goBack}>&lt; Go Back</Button></div>
@@ -350,6 +351,7 @@ function MovieDetail(props) {
           </Media>
         </Col>
       </Row>
+      ): null}
     </Container>
   );
 }

@@ -2,7 +2,7 @@ const axios = require("axios");
 require('dotenv').config()
 const KEY = process.env.REACT_APP_API_KEY;
 
-
+// API key safely stored in env variables on our backend
 module.exports = function (app)  {
     
   // Gets all books
