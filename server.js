@@ -4,7 +4,6 @@ const express = require("express");
 const session = require("express-session");
 // Requiring passport as we've configured it
 const passport = require("./config/passport");
-
 // Setting up port and requiring models for syncing
 const PORT = process.env.PORT || 3001;
 const db = require("./models");
@@ -30,6 +29,7 @@ app.use(passport.session());
 
 // Requiring our routes
 require("./routes/api-routes.js")(app);
+require("./routes/OMDB-api-routes")(app);
 require("./routes/SQL-api-routes.js")(app);
 require("./routes/html-routes.js")(app);
 

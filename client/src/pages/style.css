@@ -1,3 +1,9 @@
+body {
+    background-color: #fff3eb;
+    background-image: url("https://www.transparenttextures.com/patterns/climpek.png");
+/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+}
+
 .book-img{
     float: left;
 }
@@ -28,6 +34,11 @@ input {
     background-size: cover;
     color: white;
     text-shadow: 2px 2px black;
+    border-radius: 0;
+}
+
+.active.nav-link {
+    background-color: transparent;
 }
 
 .searchBody {
@@ -56,4 +67,41 @@ input {
 
 .title {
     margin: 0;
+}
+
+.mediaPoster {
+    float: none;
+}
+
+.backBtn {
+    display: block;
+    margin-top: 20px;
+    margin-left: 25px;
+}
+
+.movieDetail {
+    margin-top: 10px;
+}
+
+.infoBtn {
+    margin-left: 10px;
+}
+
+@media (min-width: 576px) {
+    .mediaPoster {
+        float: left;
+    }
+}
+
+@media (min-width: 768px) {
+    .backBtn {
+        margin-left: 35px;
+        margin-bottom: 40px;
+    }
+}
+
+@media (min-width: 992px) {
+    .backBtn {
+        margin-left: 55px;
+    }
 }

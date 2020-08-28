@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Media, Button, Row, Col, Container } from "reactstrap";
+import { useHistory } from 'react-router-dom';
 import SqlAPI from "../utils/SQL-API";
 import OMDbAPI from "../utils/OMDbAPI";
 import { useMovieContext } from "../utils/movieContext";
@@ -24,6 +25,8 @@ function MovieDetail(props) {
     wishlist: false,
   });
 
+  const history = useHistory();
+
   useEffect(() => {
     if (movieState.Title) {
       localStorage.setItem("movie", JSON.stringify(movieState));
@@ -45,8 +48,11 @@ function MovieDetail(props) {
   const retrieveMovie = async (movie) => {
     try {
       let res = await OMDbAPI.getMovieByID(movie.imdbID);
+      await checkUniqueWish(movie);
+      // await checkUniqueLib(movie)
       //console.log(res.data);
       return res.data;
+  
     } catch (err) {
       throw err;
     }
@@ -63,6 +69,55 @@ function MovieDetail(props) {
   useEffect(() => {
     return;
   }, [buttonStatus]);
+
+  const checkUniqueWish = async function(movie) {
+    const count = await SqlAPI.countEntriesWish(movie.imdbID);
+    console.log(count.data);
+      if (count.data > 0) {
+        setButtonStatus({
+          ...buttonStatus,
+          wishlist: "Hidden"
+        });
+        console.log(false);
+        return false;
+      } else {
+      return true;
+      }
+  }
+
+  // const checkUniqueLib = async function(movie) {
+  //   const count = await SqlAPI.countEntries(movie.imdbID);
+  //   if (count.data > 0) {
+  //     switch(movie.format) {
+  //       case "DVD":
+  //         setButtonStatus({
+  //           ...buttonStatus,
+  //           DVD: "Hidden"
+  //         });
+  //       case "BluRay":
+  //         setButtonStatus({
+  //           ...buttonStatus,
+  //           BluRay: "Hidden"
+  //         });
+  //       case "VOD":
+  //         setButtonStatus({
+  //           ...buttonStatus,
+  //           VOD: "Hidden"
+  //         });
+  //       default:
+  //         return false;
+  //     }} else {
+  //       return true;
+  //     }
+  //   }
+  
+
+  const deleteIfOnWish = async function(movie) {
+    const isUnique = await checkUniqueWish(movie);
+    if (!isUnique) {
+    SqlAPI.deleteWishlist(movie.imdbID);
+    } 
+  }
 
   const handleSave = function (e) {
     e.preventDefault();
@@ -109,8 +164,11 @@ function MovieDetail(props) {
       });
     }
     console.log(movieObject);
-    saveMovieToDB(movieObject);
+    deleteIfOnWish(movieObject).then(
+    saveMovieToDB(movieObject));
   };
+
+  
 
   const renderButtons = function () {
     const buttons = [];
@@ -204,36 +262,37 @@ function MovieDetail(props) {
     return buttons.map((element) => element);
   };
 
-  const renderWishBtn = function () {
-    if (buttonStatus.wishlist === "Show") {
-      return (
-        <Button
-          className="formatBtn"
-          left="true"
-          outline
-          color="primary"
-          wish="wishlist"
-          onClick={handleSave}
-        >
-          Add to Wishlist
-        </Button>
-      );
-    } else {
-      return (
-        <Button
-          className="formatBtn"
-          left="true"
-          outline
-          disabled
-          color="primary"
-          wish="wishlist"
-          onClick={handleSave}
-        >
-          Saved to Wishlist!
-        </Button>
-      );
-    }
-  };
+  const renderWishBtn = function (movie) {
+      if ((buttonStatus.wishlist) === "Show") {
+        return (
+          <Button
+            className="formatBtn"
+            left="true"
+            outline
+            color="primary"
+            wish="wishlist"
+            onClick={handleSave}
+          >
+            Add to Wishlist
+          </Button>
+        );
+      } else {
+        return (
+          <Button
+            className="formatBtn"
+            left="true"
+            outline
+            disabled
+            color="primary"
+            wish="wishlist"
+            onClick={handleSave}
+          >
+            Saved to Wishlist!
+          </Button>
+        );
+      }    
+    
+};
 
   const handleImg = function (string) {
     if (string !== "N/A") {
@@ -252,14 +311,15 @@ function MovieDetail(props) {
   };
 
   return (
-    <Container>
+    <Container fluid>
       <h1 className="detailHeader">
         <strong>Movie Details</strong>
       </h1>
       <Row>
-        <Col sm="12">
+        <Col xs="12" sm="10">
+        <div><Button outline color="secondary" className="backBtn" onClick={history.goBack}>&lt; Go Back</Button></div>
           <Media className="movieDetail">
-            <Media left>
+            <Media className="mediaPoster">
               <Media
                 className="largePoster"
                 object
@@ -276,16 +336,16 @@ function MovieDetail(props) {
                 </h2>
               </Media>
               <strong>Directed by {movie.Director}</strong>
-              <br />
+              <hr />
               <strong>Starring: {movie.Actors}</strong>
-              <br />
+              <hr />
               {handleSynopsis(movie.Plot)}
               <hr />
               <h3>Own it? Click the formats you own</h3>
-              {renderButtons()}
+              {renderButtons(movie)}
               <hr />
               <h3>Want to own it?</h3>
-              {renderWishBtn()}
+              {renderWishBtn(movie)}
             </Media>
           </Media>
         </Col>
