@@ -68,18 +68,18 @@ function MovieDetail(props) {
   }, [buttonStatus]);
 
   const checkUnique = async function(movie) {
-    SqlAPI.countEntriesWish(movie.imdbID).then((res) => {
-      if (res[0] !== 0) {
+    const count = await SqlAPI.countEntriesWish(movie.imdbID);
+    console.log(count.data);
+      if (count.data !== 0) {
         return false;
       }
       return true;
-    }
-
-    )
+    
   }
 
-  const deleteIfOnWish = function(movie) {
-    if (checkUnique) {
+  const deleteIfOnWish = async function(movie) {
+    const isUnique = await checkUnique(movie);
+    if (!isUnique) {
     SqlAPI.deleteWishlist(movie.imdbID);
     } 
   }
@@ -129,9 +129,8 @@ function MovieDetail(props) {
       });
     }
     console.log(movieObject);
-    deleteIfOnWish(movieObject);
-    saveMovieToDB(movieObject);
-    
+    deleteIfOnWish(movieObject).then(
+    saveMovieToDB(movieObject));
   };
 
   
@@ -229,7 +228,8 @@ function MovieDetail(props) {
   };
 
   const renderWishBtn = function () {
-    if (buttonStatus.wishlist === "Show") {
+    
+    if ((buttonStatus.wishlist) === "Show") {
       return (
         <Button
           className="formatBtn"
@@ -257,7 +257,7 @@ function MovieDetail(props) {
         </Button>
       );
     }
-  };
+};
 
   const handleImg = function (string) {
     if (string !== "N/A") {
@@ -307,10 +307,10 @@ function MovieDetail(props) {
               {handleSynopsis(movie.Plot)}
               <hr />
               <h3>Own it? Click the formats you own</h3>
-              {renderButtons()}
+              {renderButtons(movie)}
               <hr />
               <h3>Want to own it?</h3>
-              {renderWishBtn()}
+              {renderWishBtn(movie)}
             </Media>
           </Media>
         </Col>
