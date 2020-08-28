@@ -21,7 +21,7 @@ import {
 
 
 
-function Members() {
+ const MembersTab = () => {
   // Setting our component's initial state
 const [movies, setMovies] = useState([]);
 const [formObject, setFormObject] = useState({title: ""});
@@ -47,7 +47,12 @@ const debouncedSearchTerm = useDebounce(formObject, 800);
         }
       })
     }
-  }, [debouncedSearchTerm, state])
+  }, [debouncedSearchTerm, state]);
+
+  useEffect( () => {
+    const jumboImg = new Image();
+
+  },[])
 
   // Loads all movies and sets state to movies that match search
   async function getMovies(title) {
@@ -92,7 +97,7 @@ const handleImg  = function(string) {
 
     return ( 
       <div>
-    <Jumbotron className="homeJumbo">
+    <Jumbotron fluid className="homeJumbo">
       <h1 className="hdr">SEARCH FOR MOVIES!</h1>
     </Jumbotron>
     
@@ -159,4 +164,4 @@ const handleImg  = function(string) {
 
 
 
-export default Members;
+export default MembersTab;
