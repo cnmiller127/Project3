@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import { useMovieContext } from "../utils/movieContext";
 import {
   TabContent,
   TabPane,
@@ -13,8 +15,9 @@ import {
   Jumbotron,
   Container,
   Media,
-  Badge
+  Badge,
 } from "reactstrap";
+import { MOVIE_ID } from "../utils/actions";
 import classnames from "classnames";
 import SqlAPI from "../utils/SQL-API";
 import "./library.css";
@@ -24,11 +27,12 @@ const LibraryTab = () => {
   const [activeTab, setActiveTab] = useState("All");
   const [movieList, setMovieList] = useState(moviesArray);
 
+  const [state, dispatch] = useMovieContext();
+  const history = useHistory();
+
   const toggle = (tab) => {
     if (activeTab !== tab) setActiveTab(tab);
   };
-
-  
 
   useEffect(() => {
     retrieveMovies(activeTab);
@@ -73,25 +77,50 @@ const LibraryTab = () => {
     }
   };
 
-  const handleDelete = function() {
+  const handleDelete = function () {
     const id = this.id;
-    SqlAPI.deleteMovie(id)
-    const newList = movieList.filter(item => item.id !== id)
+    SqlAPI.deleteMovie(id);
+    const newList = movieList.filter((item) => item.id !== id);
     setMovieList(newList);
-  }
+  };
 
-  const renderBadges = function(movieObject) {
+  const renderBadges = function (movieObject) {
     switch (movieObject.format) {
       case "DVD":
-        return <Badge color="success" pill>DVD</Badge>
+        return (
+          <Badge color="success" pill>
+            DVD
+          </Badge>
+        );
       case "BluRay":
-        return <Badge color="primary" pill>Blu-Ray</Badge>
+        return (
+          <Badge color="primary" pill>
+            Blu-Ray
+          </Badge>
+        );
       case "VOD":
-        return <Badge color="warning" pill>VOD</Badge>
+        return (
+          <Badge color="warning" pill>
+            VOD
+          </Badge>
+        );
       default:
         break;
     }
-  }
+  };
+
+  const handleClick = (movie) => {
+    if (movie.imdbID && movie.title) {
+      dispatch({
+        type: MOVIE_ID,
+        data: {
+          Title: movie.title,
+          imdbID: movie.imdbID,
+        },
+      });
+      history.push("/movieDetail");
+    }
+  };
 
   return (
     <div>
@@ -149,7 +178,9 @@ const LibraryTab = () => {
             <TabPane tabId="All">
               <Row>
                 <Col className="header" xs="11" sm="12">
-                  <h4><strong>Your Library</strong></h4>
+                  <h4>
+                    <strong>Your Library</strong>
+                  </h4>
                 </Col>
               </Row>
               <Row>
@@ -160,7 +191,7 @@ const LibraryTab = () => {
                         <ListGroupItem className="movieItem" key={movie.id}>
                           <Media>
                             <Media left top href={movie.poster}>
-                              <Media  
+                              <Media
                                 object
                                 className="poster"
                                 src={movie.poster}
@@ -168,10 +199,32 @@ const LibraryTab = () => {
                               />
                             </Media>
                             <Media body className="movieBody">
-                              <Media heading><strong>{movie.title} {'('+movie.year+')'} {renderBadges(movie)}</strong></Media>
-                              {movie.synopsis}
+                              <Media heading>
+                                <strong>
+                                  {movie.title} {"(" + movie.year + ")"}{" "}
+                                  {renderBadges(movie)}
+                                </strong>
+                              </Media>
+                              {movie.synopsis}{" "}
+                              <Button
+                                className="infoBtn"
+                                size="sm"
+                                onClick={() => handleClick(movie)}
+                                color="info"
+                              >
+                                More Info
+                              </Button>
                               <br />
-                              <Button className="deleteBtn" outline color="danger" size="sm" id={movie.id} onClick={handleDelete}>Remove from Shelf</Button>
+                              <Button
+                                className="deleteBtn"
+                                outline
+                                color="danger"
+                                size="sm"
+                                id={movie.id}
+                                onClick={handleDelete}
+                              >
+                                Remove from Shelf
+                              </Button>
                             </Media>
                           </Media>
                         </ListGroupItem>
@@ -184,28 +237,52 @@ const LibraryTab = () => {
             <TabPane tabId="DVD">
               <Row>
                 <Col className="header" xs="12">
-                  <h4><strong>Your DVDs</strong></h4>
+                  <h4>
+                    <strong>Your DVDs</strong>
+                  </h4>
                 </Col>
               </Row>
               <Row>
-                <Col >
+                <Col>
                   <ListGroup>
                     {movieList.map((movie) => (
                       <Row>
                         <ListGroupItem className="movieItem" key={movie.id}>
                           <Media>
                             <Media left href={movie.poster}>
-                              <Media className="poster"
+                              <Media
+                                className="poster"
                                 object
                                 src={movie.poster}
                                 alt={movie.title}
                               />
                             </Media>
                             <Media body className="movieBody">
-                              <Media heading><strong>{movie.title} {'('+movie.year+')'}</strong></Media>
-                              {movie.synopsis}
+                              <Media heading>
+                                <strong>
+                                  {movie.title} {"(" + movie.year + ")"}
+                                </strong>
+                              </Media>
+                              {movie.synopsis}{" "}
+                              <Button
+                                className="infoBtn"
+                                size="sm"
+                                onClick={() => handleClick(movie)}
+                                color="info"
+                              >
+                                More Info
+                              </Button>
                               <br />
-                              <Button className="deleteBtn" outline color="danger" size="sm" id={movie.id} onClick={handleDelete} >Remove from Shelf</Button>
+                              <Button
+                                className="deleteBtn"
+                                outline
+                                color="danger"
+                                size="sm"
+                                id={movie.id}
+                                onClick={handleDelete}
+                              >
+                                Remove from Shelf
+                              </Button>
                             </Media>
                           </Media>
                         </ListGroupItem>
@@ -218,28 +295,52 @@ const LibraryTab = () => {
             <TabPane tabId="Blu-Ray">
               <Row>
                 <Col className="header" xs="12">
-                  <h4><strong>Your Blu-Rays</strong></h4>
+                  <h4>
+                    <strong>Your Blu-Rays</strong>
+                  </h4>
                 </Col>
               </Row>
               <Row>
-                <Col >
+                <Col>
                   <ListGroup>
                     {movieList.map((movie) => (
                       <Row>
                         <ListGroupItem className="movieItem" key={movie.id}>
                           <Media>
                             <Media left href={movie.poster}>
-                              <Media className="poster"
+                              <Media
+                                className="poster"
                                 object
                                 src={movie.poster}
                                 alt={movie.title}
                               />
                             </Media>
                             <Media body className="movieBody">
-                              <Media heading><strong>{movie.title} {'('+movie.year+')'}</strong></Media>
-                              {movie.synopsis}
+                              <Media heading>
+                                <strong>
+                                  {movie.title} {"(" + movie.year + ")"}
+                                </strong>
+                              </Media>
+                              {movie.synopsis}{" "}
+                              <Button
+                                className="infoBtn"
+                                size="sm"
+                                onClick={() => handleClick(movie)}
+                                color="info"
+                              >
+                                More Info
+                              </Button>
                               <br />
-                              <Button className="deleteBtn" outline color="danger" size="sm" id={movie.id} onClick={handleDelete} >Remove from Shelf</Button>
+                              <Button
+                                className="deleteBtn"
+                                outline
+                                color="danger"
+                                size="sm"
+                                id={movie.id}
+                                onClick={handleDelete}
+                              >
+                                Remove from Shelf
+                              </Button>
                             </Media>
                           </Media>
                         </ListGroupItem>
@@ -252,28 +353,52 @@ const LibraryTab = () => {
             <TabPane tabId="VOD">
               <Row>
                 <Col className="header" xs="12">
-                  <h4><strong>Your VOD Purchases</strong></h4>
+                  <h4>
+                    <strong>Your VOD Purchases</strong>
+                  </h4>
                 </Col>
               </Row>
               <Row>
-                <Col >
+                <Col>
                   <ListGroup>
                     {movieList.map((movie) => (
                       <Row>
                         <ListGroupItem className="movieItem" key={movie.id}>
                           <Media>
                             <Media left href={movie.poster}>
-                              <Media className="poster"
+                              <Media
+                                className="poster"
                                 object
                                 src={movie.poster}
                                 alt={movie.title}
                               />
                             </Media>
                             <Media body className="movieBody">
-                              <Media heading><strong>{movie.title} {'('+movie.year+')'}</strong></Media>
-                              {movie.synopsis}
+                              <Media heading>
+                                <strong>
+                                  {movie.title} {"(" + movie.year + ")"}
+                                </strong>
+                              </Media>
+                              {movie.synopsis}{" "}
+                              <Button
+                                className="infoBtn"
+                                size="sm"
+                                onClick={() => handleClick(movie)}
+                                color="info"
+                              >
+                                More Info
+                              </Button>
                               <br />
-                              <Button className="deleteBtn" outline color="danger" size="sm" id={movie.id} onClick={handleDelete} >Remove from Shelf</Button>
+                              <Button
+                                className="deleteBtn"
+                                outline
+                                color="danger"
+                                size="sm"
+                                id={movie.id}
+                                onClick={handleDelete}
+                              >
+                                Remove from Shelf
+                              </Button>
                             </Media>
                           </Media>
                         </ListGroupItem>

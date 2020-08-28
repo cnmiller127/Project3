@@ -22,5 +22,11 @@ export default {
   // Saves a movie to the SQL database
   saveMovie: function(movieData) {
     return axios.post("/api/movies", movieData);
+  },
+  deleteWishlist: function(id) {
+    return axios.delete("/api/wishlist/" + id);
+  },
+  countEntriesWish: function(id) {
+    return axios.get("/api/wishlist/" + id);
   }
 };

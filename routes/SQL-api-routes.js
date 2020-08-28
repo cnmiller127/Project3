@@ -16,6 +16,7 @@ module.exports = function (app) {
         console.log(req.body);
       });
   }),
+  // Grabs all movies that where wishlist = true
     app.get("/api/wishlist", async function (req, res) {
       const uid = req.user.id;
       db.Movie.findAll(
@@ -59,6 +60,7 @@ module.exports = function (app) {
           console.log(req.body);
         });
     }),
+    //Adds movie to library
     app.post("/api/movies", async function (req, res) {
       const uid = req.user.id;
       req.body.UserId = uid;
@@ -71,12 +73,68 @@ module.exports = function (app) {
           console.log(req.body);
         });
     }),
+    // Removes entry from library
     app.delete("/api/movies/:id", function (req, res) {
+      const uid = req.user.id;
       db.Movie.destroy({
-        where: { id: req.params.id },
+        where: {
+          UserId: uid,
+          id: req.params.id,
+        },
+      }).then(function (dbMovie) {
+        res.json(dbMovie);
       }).catch(function (err) {
         res.status(500).json(err);
         console.log(req.body);
       });
-    });
+    }),
+    // Removes entry from wishlist
+    app.delete("/api/wishlist/:id", function (req, res) {
+      const uid = req.user.id;
+      db.Movie.destroy({
+        where: {
+          UserId: uid,
+          imdbID: req.params.id,
+          wishlist: true
+        },
+      }).then(function (dbMovie) {
+        res.json(dbMovie);
+      }).catch(function (err) {
+        res.status(500).json(err);
+        console.log(req.body);
+      });
+    }),
+    // app.put("/api/movies/:id", function (req, res) {
+    //   const uid = req.user.id;
+    //   db.Movie.update(
+    //     {
+    //       UserId: uid,
+    //       format: req.body.format,
+    //       wishlist: req.body.wishlist,
+    //     },
+    //     {
+    //       where: { id: req.params.id },
+    //     }
+    //   ).then(function (dbMovie) {
+    //     res.json(dbMovie);
+    //   }).catch(function (err) {
+    //     res.status(500).json(err);
+    //     console.log(req.body);
+    //   });
+    // }),
+    app.get("/api/wishlist/:id", function (req, res) {
+      const uid = req.user.id;
+      db.Movie.count({
+        where: {
+          UserId: uid,
+          imdbID: req.params.id,
+          wishlist: true,
+        },
+      }).then((dbMovie) => {
+        res.json(dbMovie);
+      }).catch(function(err) {
+        res.status(500).json(err);
+        console.log(req.body);
+      });
+    })
 };
