@@ -98,7 +98,7 @@ const handleImg  = function(string) {
     return ( 
       <div>
     <Jumbotron fluid className="homeJumbo">
-      <h1 className="hdr">SEARCH FOR MOVIES!</h1>
+      <h1 className="display-3">Movie Search</h1>
     </Jumbotron>
     
       <Container fluid>
@@ -107,7 +107,7 @@ const handleImg  = function(string) {
           
            
             <label className="label">Search by title or...: </label>
-            <Form>
+            <Form onSubmit = {event => {event.preventDefault()}}>
               <Input
                 onChange={handleInputChange}
                 name="title"
