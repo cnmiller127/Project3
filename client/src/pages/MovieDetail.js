@@ -67,6 +67,23 @@ function MovieDetail(props) {
     return;
   }, [buttonStatus]);
 
+  const checkUnique = async function(movie) {
+    SqlAPI.countEntriesWish(movie.imdbID).then((res) => {
+      if (res[0] !== 0) {
+        return false;
+      }
+      return true;
+    }
+
+    )
+  }
+
+  const deleteIfOnWish = function(movie) {
+    if (checkUnique) {
+    SqlAPI.deleteWishlist(movie.imdbID);
+    } 
+  }
+
   const handleSave = function (e) {
     e.preventDefault();
     const movieObject = {
@@ -112,8 +129,12 @@ function MovieDetail(props) {
       });
     }
     console.log(movieObject);
+    deleteIfOnWish(movieObject);
     saveMovieToDB(movieObject);
+    
   };
+
+  
 
   const renderButtons = function () {
     const buttons = [];
