@@ -19,18 +19,23 @@ module.exports = function (app)  {
             res.json(movie.data);
         }
         catch (err) {
-            throw err;
+            res.status(500).json(err);
         }
   }),
 
   app.get("/omdb/movieDetail", async function (req, res) {
-    var query;
-    const id = req.query.id;
-    query = `https://www.omdbapi.com/?apikey=${KEY}&i=${id}`;
-    console.log(query);
-    let details = await axios.get(query);
-    res.json(details.data);
-  });
-           
+      try{
+            var query;
+            const id = req.query.id;
+            query = `https://www.omdbapi.com/?apikey=${KEY}&i=${id}`;
+            console.log(query);
+            let details = await axios.get(query);
+            res.json(details.data);
+      }
+      catch (err) {
+             res.status(500).json(err);
+      }
+
+    });          
 }
 
