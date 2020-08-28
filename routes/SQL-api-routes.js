@@ -72,22 +72,54 @@ module.exports = function (app) {
         });
     }),
     app.delete("/api/movies/:id", function (req, res) {
+      const uid = req.user.id;
       db.Movie.destroy({
-        where: { id: req.params.id },
+        where: {
+          UserId: uid,
+          id: req.params.id,
+        },
       }).catch(function (err) {
         res.status(500).json(err);
         console.log(req.body);
       });
     }),
+    app.delete("/api/wishlist/:id", function (req, res) {
+      const uid = req.user.id;
+      db.Movie.destroy({
+        where: {
+          UserId: uid,
+          imdbID: req.params.id,
+          wishlist: true,
+        },
+      });
+    }),
     app.put("/api/movies/:id", function (req, res) {
-      db.Movie.update({
-        format: req.body.format,
-        wishlist: req.body.wishlist
-      },{
-        where: { id: req.params.id }
-      }).catch(function (err) {
+      const uid = req.user.id;
+      db.Movie.update(
+        {
+          UserId: uid,
+          format: req.body.format,
+          wishlist: req.body.wishlist,
+        },
+        {
+          where: { id: req.params.id },
+        }
+      ).catch(function (err) {
         res.status(500).json(err);
         console.log(req.body);
-      })
+      });
+    }),
+    app.get("/api/wishlist/:id", function (req, res) {
+      const uid = req.user.id;
+      db.Movie.count({
+        where: {
+          UserId: uid,
+          imdbID: req.params.id,
+          wishlist: true,
+        },
+      }).catch(function(err) {
+        res.status(500).json(err);
+        console.log(req.body);
+      });
     })
 };
