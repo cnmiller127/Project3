@@ -44,3 +44,5 @@ db.sequelize.sync().then(function() {
     );
   });
 });
+
+console.log(process.env.API_KEY)
