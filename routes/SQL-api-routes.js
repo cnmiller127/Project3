@@ -79,12 +79,12 @@ module.exports = function (app) {
         console.log(req.body);
       });
     }),
-    app.update("/api/movies/:id", function (req, res) {
+    app.put("/api/movies/:id", function (req, res) {
       db.Movie.update({
         format: req.body.format,
         wishlist: req.body.wishlist
       },{
-        where: { id: req.params.id },
+        where: { id: req.params.id }
       }).catch(function (err) {
         res.status(500).json(err);
         console.log(req.body);

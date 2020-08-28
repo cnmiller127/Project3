@@ -51,6 +51,10 @@
     display: block;
 }
 
+.infoBtn {
+    margin-left: 10px;
+}
+
 @media (min-width: 576px) {
     .largePoster {
         height: 200px;

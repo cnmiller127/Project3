@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Media, Button, Row, Col, Container } from "reactstrap";
+import { useHistory } from 'react-router-dom';
 import SqlAPI from "../utils/SQL-API";
 import OMDbAPI from "../utils/OMDbAPI";
 import { useMovieContext } from "../utils/movieContext";
@@ -23,6 +24,8 @@ function MovieDetail(props) {
     format: "",
     wishlist: false,
   });
+
+  const history = useHistory();
 
   useEffect(() => {
     if (movieState.Title) {
@@ -258,6 +261,7 @@ function MovieDetail(props) {
       </h1>
       <Row>
         <Col xs="12" sm="10">
+        <div><Button outline color="secondary" className="backBtn" onClick={history.goBack}>&lt; Go Back</Button></div>
           <Media className="movieDetail">
             <Media className="mediaPoster">
               <Media
