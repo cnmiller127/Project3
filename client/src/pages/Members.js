@@ -112,7 +112,7 @@ const handleImg  = function(string) {
           <Col className="searchBody" sm="6">
           
            
-            <label className="label">Search by title or...: </label>
+            <label className="label">Search by title: </label>
             <Form onSubmit = {event => {event.preventDefault()}}>
               <Input
                 onChange={handleInputChange}
