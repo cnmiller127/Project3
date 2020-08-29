@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from 'react-router-dom';
-// import {NavContext} from "../../src/UserContext";
 import "./style.css";
+import Shelf from "../images/shelf.jpg";
 import OMDbAPI from "../utils/OMDbAPI";
 import useDebounce from "../utils/debounceHook";
 import {useMovieContext} from "../utils/movieContext";
@@ -21,11 +21,11 @@ import {
 
 
 
- const MembersTab = () => {
+const MembersTab = () => {
   // Setting our component's initial state
 const [movies, setMovies] = useState([]);
 const [formObject, setFormObject] = useState({title: ""});
-
+const [loaded, setLoaded] = useState(false);
 const [state, dispatch] = useMovieContext();
 const history = useHistory();
 
@@ -51,6 +51,10 @@ const debouncedSearchTerm = useDebounce(formObject, 800);
 
   useEffect( () => {
     const jumboImg = new Image();
+    jumboImg.src = Shelf;
+    jumboImg.onload = () => {
+    setLoaded(true);
+    }
 
   },[])
 
@@ -94,12 +98,14 @@ const handleImg  = function(string) {
   }
 }
 
-
-    return ( 
+    return (
       <div>
+        {loaded ?
+        <React.Fragment>
     <Jumbotron fluid className="homeJumbo">
-      <h1 className="display-3">Movie Search</h1>
+        <h1 className="display-3">Movie Search</h1>
     </Jumbotron>
+        
     
       <Container fluid>
         <Row>
@@ -158,7 +164,10 @@ const handleImg  = function(string) {
           </Col>
         </Row>
       </Container>
+      </React.Fragment> 
+      : null }
       </div>
+      
     );
   }
 

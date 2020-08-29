@@ -14,18 +14,28 @@ import {
 } from "reactstrap";
 import { MOVIE_ID } from "../utils/actions";
 import SqlAPI from "../utils/SQL-API";
+import Wish from "../images/wish.jpg";
 import "./wishlist.css";
 
 const WishlistTab = () => {
   var moviesArray = [];
   const [movieList, setMovieList] = useState(moviesArray);
-
+  const [loaded, setLoaded] = useState(false);
   const [state, dispatch] = useMovieContext();
   const history = useHistory();
 
   useEffect(() => {
     retrieveMovies();
   }, []);
+
+  useEffect( () => {
+    const jumboImg = new Image();
+    jumboImg.src = Wish;
+    jumboImg.onload = () => {
+    setLoaded(true);
+    }
+
+  },[])
 
   const retrieveMovies = async (tab) => {
     try {
@@ -85,6 +95,8 @@ const WishlistTab = () => {
 
   return (
     <div>
+      {loaded ?
+        <React.Fragment>
       <Jumbotron fluid className="jumbotronWishlist">
         <Container fluid>
           <h1 className="display-3">Your Shelf</h1>
@@ -145,6 +157,8 @@ const WishlistTab = () => {
           </ListGroup>
         </Col>
       </Row>
+      </React.Fragment> 
+      : null }
     </div>
   );
 };
