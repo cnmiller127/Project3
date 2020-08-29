@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Media, Button, Row, Col, Container } from "reactstrap";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import SqlAPI from "../utils/SQL-API";
 import OMDbAPI from "../utils/OMDbAPI";
 import { useMovieContext } from "../utils/movieContext";
@@ -52,7 +52,6 @@ function MovieDetail(props) {
       // await checkUniqueLib(movie)
       //console.log(res.data);
       return res.data;
-  
     } catch (err) {
       throw err;
     }
@@ -70,20 +69,20 @@ function MovieDetail(props) {
     return;
   }, [buttonStatus]);
 
-  const checkUniqueWish = async function(movie) {
+  const checkUniqueWish = async function (movie) {
     const count = await SqlAPI.countEntriesWish(movie.imdbID);
     console.log(count.data);
-      if (count.data > 0) {
-        setButtonStatus({
-          ...buttonStatus,
-          wishlist: "Hidden"
-        });
-        console.log(false);
-        return false;
-      } else {
+    if (count.data > 0) {
+      setButtonStatus({
+        ...buttonStatus,
+        wishlist: "Hidden",
+      });
+      console.log(false);
+      return false;
+    } else {
       return true;
-      }
-  }
+    }
+  };
 
   // const checkUniqueLib = async function(movie) {
   //   const count = await SqlAPI.countEntries(movie.imdbID);
@@ -110,14 +109,13 @@ function MovieDetail(props) {
   //       return true;
   //     }
   //   }
-  
 
-  const deleteIfOnWish = async function(movie) {
+  const deleteIfOnWish = async function (movie) {
     const isUnique = await checkUniqueWish(movie);
     if (!isUnique) {
-    SqlAPI.deleteWishlist(movie.imdbID);
-    } 
-  }
+      SqlAPI.deleteWishlist(movie.imdbID);
+    }
+  };
 
   const handleSave = function (e) {
     e.preventDefault();
@@ -132,9 +130,6 @@ function MovieDetail(props) {
       format: this.value,
       wishlist: false,
     };
-    if (this.wish === "wishlist") {
-      movieObject.wishlist = true;
-    }
     switch (movieObject.format) {
       case "DVD":
         setButtonStatus({
@@ -157,18 +152,32 @@ function MovieDetail(props) {
       default:
         break;
     }
+
+    console.log(movieObject);
+    deleteIfOnWish(movieObject).then(saveMovieToDB(movieObject));
+  };
+
+  const handleSaveToWish = function (e) {
+    e.preventDefault();
+    const movieObject = {
+      imdbID: movie.imdbID,
+      title: movie.Title,
+      poster: movie.Poster,
+      year: movie.Year,
+      synopsis: movie.Plot,
+      director: movie.Director,
+      cast: movie.Actors,
+      format: "",
+      wishlist: true,
+    };
     if (movieObject.wishlist) {
       setButtonStatus({
         ...buttonStatus,
         wishlist: "Hidden",
       });
     }
-    console.log(movieObject);
-    deleteIfOnWish(movieObject).then(
-    saveMovieToDB(movieObject));
+    saveMovieToDB(movieObject);
   };
-
-  
 
   const renderButtons = function () {
     const buttons = [];
@@ -263,36 +272,35 @@ function MovieDetail(props) {
   };
 
   const renderWishBtn = function (movie) {
-      if ((buttonStatus.wishlist) === "Show") {
-        return (
-          <Button
-            className="formatBtn"
-            left="true"
-            outline
-            color="primary"
-            wish="wishlist"
-            onClick={handleSave}
-          >
-            Add to Wishlist
-          </Button>
-        );
-      } else {
-        return (
-          <Button
-            className="formatBtn"
-            left="true"
-            outline
-            disabled
-            color="primary"
-            wish="wishlist"
-            onClick={handleSave}
-          >
-            Saved to Wishlist!
-          </Button>
-        );
-      }    
-    
-};
+    if (buttonStatus.wishlist === "Show") {
+      return (
+        <Button
+          className="formatBtn"
+          left="true"
+          outline
+          color="primary"
+          wish="wishlist"
+          onClick={handleSaveToWish}
+        >
+          Add to Wishlist
+        </Button>
+      );
+    } else {
+      return (
+        <Button
+          className="formatBtn"
+          left="true"
+          outline
+          disabled
+          color="primary"
+          wish="wishlist"
+          onClick={handleSaveToWish}
+        >
+          Saved to Wishlist!
+        </Button>
+      );
+    }
+  };
 
   const handleImg = function (string) {
     if (string !== "N/A") {
@@ -315,43 +323,52 @@ function MovieDetail(props) {
       <h1 className="detailHeader">
         <strong>Movie Details</strong>
       </h1>
-      {(movie.Title) ? (
-      <Row>
-        <Col xs="12" sm="10">
-        <div><Button outline color="secondary" className="backBtn" onClick={history.goBack}>&lt; Go Back</Button></div>
-          <Media className="movieDetail">
-            <Media className="mediaPoster">
-              <Media
-                className="largePoster"
-                object
-                src={handleImg(movie.Poster)}
-                alt={movie.Title}
-              />
-            </Media>
-            <Media body className="movieBody">
-              <Media heading className="title">
-                <h2>
-                  <strong>
-                    {movie.Title} {"(" + movie.Year + ")"}
-                  </strong>
-                </h2>
+      {movie.Title ? (
+        <Row>
+          <Col xs="12" sm="10">
+            <div>
+              <Button
+                outline
+                color="secondary"
+                className="backBtn"
+                onClick={history.goBack}
+              >
+                &lt; Go Back
+              </Button>
+            </div>
+            <Media className="movieDetail">
+              <Media className="mediaPoster">
+                <Media
+                  className="largePoster"
+                  object
+                  src={handleImg(movie.Poster)}
+                  alt={movie.Title}
+                />
               </Media>
-              <strong>Directed by {movie.Director}</strong>
-              <hr />
-              <strong>Starring: {movie.Actors}</strong>
-              <hr />
-              {handleSynopsis(movie.Plot)}
-              <hr />
-              <h3>Own it? Click the formats you own</h3>
-              {renderButtons(movie)}
-              <hr />
-              <h3>Want to own it?</h3>
-              {renderWishBtn(movie)}
+              <Media body className="movieBody">
+                <Media heading className="title">
+                  <h2>
+                    <strong>
+                      {movie.Title} {"(" + movie.Year + ")"}
+                    </strong>
+                  </h2>
+                </Media>
+                <strong>Directed by {movie.Director}</strong>
+                <hr />
+                <strong>Starring: {movie.Actors}</strong>
+                <hr />
+                {handleSynopsis(movie.Plot)}
+                <hr />
+                <h3>Own it? Click the formats you own</h3>
+                {renderButtons(movie)}
+                <hr />
+                <h3>Want to own it?</h3>
+                {renderWishBtn(movie)}
+              </Media>
             </Media>
-          </Media>
-        </Col>
-      </Row>
-      ): null}
+          </Col>
+        </Row>
+      ) : null}
     </Container>
   );
 }
