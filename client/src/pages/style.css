@@ -28,16 +28,10 @@ input {
 .homeJumbo {
     align-content: center;
     text-align: center;
-    height: 200px;
     background-image: url("../images/shelf.jpg");
     background-position: center 50%;
     background-size: cover;
     color: white;
-    outline-color: black;
-    outline-width: thick;
-    outline-style: solid;
-    text-shadow: 2px 2px black;
-    border-radius: 0;
 }
 
 .active.nav-link {
