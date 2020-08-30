@@ -15,6 +15,7 @@ import MovieDetail from "./pages/MovieDetail";
 import Shelf from "./images/shelf.jpg";
 import Theater from "./images/theater.jpg";
 import Wish from "./images/wish.jpg";
+import { Spinner } from 'reactstrap';
 
 function App() {
     // Our provider is setup in index.js so we can use the GlobalStore here easily.
@@ -47,30 +48,19 @@ function App() {
 
 // Pre-load images
     useEffect( () => {
-        var imageArr = [];
         images.forEach(img => {
-            const jumboImg = new Image();
-            jumboImg.src = img;
-            jumboImg.onload = () => {
-                imageArr.push(true);
-            } 
-        });
-        if(imagesLoaded(imageArr)){
-            setLoaded(true);
-        }
-        
+            new Promise((resolve,reject)  => {
+                const jumboImg = new Image();
+                jumboImg.src = img;
+                jumboImg.onload = resolve();
+                jumboImg.onerror = reject();
+            })
+        });  
+        setLoaded(true);
     
-      },[])
+    },[])
 
-      const imagesLoaded = (imageArr) => {
-          console.log(imageArr);
-        imageArr.forEach(img => {
-           if(!img) return false;
-        });
-        return true;
-      }
-
-
+   
     return (
 
         <Router>
@@ -120,7 +110,7 @@ function App() {
                                 <Route exact path="/movieDetail" component={MovieDetail} />
                                 <Route exact path="/wishlist" component={Wishlist} />
                                 </React.Fragment>
-                                : null }
+                                : <Spinner /> }
                             </MovieProvider>
                             </>
                             )
