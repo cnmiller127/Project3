@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from 'react-router-dom';
 import "./style.css";
-import Shelf from "../images/shelf.jpg";
 import OMDbAPI from "../utils/OMDbAPI";
 import useDebounce from "../utils/debounceHook";
 import {useMovieContext} from "../utils/movieContext";
@@ -28,7 +27,7 @@ const [formObject, setFormObject] = useState({title: ""});
 const [state, dispatch] = useMovieContext();
 const history = useHistory();
 
-const debouncedSearchTerm = useDebounce(formObject, 800);
+const debouncedSearchTerm = useDebounce(formObject, 600);
   // Load all movies and store them with setMovies
   useEffect( () => {
     console.log(state);
@@ -147,7 +146,9 @@ const handleImg  = function(string) {
               </ListGroup>
               </div>
             ) : (
-              <h3 className="label">No Results to Display</h3>
+              <Row className="justify-content-center">
+                <h3 className="label pt-3">No Results to Display</h3>
+              </Row>
             )}
           </Col>
         </Row>

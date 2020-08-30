@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Media, Button, Row, Col, Container } from "reactstrap";
+import { Media, Button, Row, Col, Container, Spinner } from "reactstrap";
 import { useHistory } from "react-router-dom";
 import SqlAPI from "../utils/SQL-API";
 import OMDbAPI from "../utils/OMDbAPI";
@@ -368,7 +368,12 @@ function MovieDetail(props) {
             </Media>
           </Col>
         </Row>
-      ) : <Row className = "justify-content-center"><br/><h1>Loading...</h1></Row>}
+      ) : <Row className = "justify-content-center">
+        <br/>
+        <h1>Loading...</h1>
+        <br />
+        <Spinner />
+        </Row>}
     </Container>
   );
 }
