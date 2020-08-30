@@ -25,7 +25,6 @@ const MembersTab = () => {
   // Setting our component's initial state
 const [movies, setMovies] = useState([]);
 const [formObject, setFormObject] = useState({title: ""});
-const [loaded, setLoaded] = useState(false);
 const [state, dispatch] = useMovieContext();
 const history = useHistory();
 
@@ -48,15 +47,6 @@ const debouncedSearchTerm = useDebounce(formObject, 800);
       })
     }
   }, [debouncedSearchTerm, state]);
-
-  useEffect( () => {
-    const jumboImg = new Image();
-    jumboImg.src = Shelf;
-    jumboImg.onload = () => {
-    setLoaded(true);
-    }
-
-  },[])
 
   // Loads all movies and sets state to movies that match search
   async function getMovies(title) {
@@ -100,8 +90,6 @@ const handleImg  = function(string) {
 
     return (
       <div>
-        {loaded ?
-        <React.Fragment>
     <Jumbotron fluid className="homeJumbo">
         <h1 className="display-3">Movie Search</h1>
     </Jumbotron>
@@ -164,8 +152,6 @@ const handleImg  = function(string) {
           </Col>
         </Row>
       </Container>
-      </React.Fragment> 
-      : null }
       </div>
       
     );

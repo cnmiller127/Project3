@@ -27,7 +27,6 @@ const LibraryTab = () => {
   var moviesArray = [];
   const [activeTab, setActiveTab] = useState("All");
   const [movieList, setMovieList] = useState(moviesArray);
-  const [loaded, setLoaded] = useState(false);
   const [state, dispatch] = useMovieContext();
   const history = useHistory();
 
@@ -38,15 +37,6 @@ const LibraryTab = () => {
   useEffect(() => {
     retrieveMovies(activeTab);
   }, [activeTab]);
-
-  useEffect( () => {
-    const jumboImg = new Image();
-    jumboImg.src = Theater;
-    jumboImg.onload = () => {
-    setLoaded(true);
-    }
-
-  },[])
 
   const retrieveMovies = async (tab) => {
     try {
@@ -134,8 +124,6 @@ const LibraryTab = () => {
 
   return (
     <div>
-      {loaded ?
-        <React.Fragment>
       <Jumbotron fluid className="jumbotronLibrary">
         <Container fluid>
           <h1 className="display-3">Your Shelf</h1>
@@ -423,8 +411,6 @@ const LibraryTab = () => {
           </TabContent>
         </Col>
       </Row>
-      </React.Fragment> 
-      : null }
     </div>
   );
 };
