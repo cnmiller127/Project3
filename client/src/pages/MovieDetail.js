@@ -370,8 +370,7 @@ function MovieDetail(props) {
         </Row>
       ) : <Row className = "justify-content-center">
         <br/>
-        <h1>Loading...</h1>
-        <br />
+        <h1 className = "pb-4">Loading...</h1>
         <Spinner />
         </Row>}
     </Container>
