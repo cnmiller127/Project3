@@ -11,6 +11,7 @@ import {
   Container,
   Media,
   Badge,
+  Spinner
 } from "reactstrap";
 import { MOVIE_ID } from "../utils/actions";
 import SqlAPI from "../utils/SQL-API";
@@ -22,10 +23,20 @@ const WishlistTab = () => {
   const [movieList, setMovieList] = useState(moviesArray);
   const [state, dispatch] = useMovieContext();
   const history = useHistory();
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     retrieveMovies();
   }, []);
+
+  useEffect( () => {
+    const jumboImg = new Image();
+    jumboImg.src = Wish;
+    jumboImg.onload = () => {
+    setLoaded(true);
+    }
+
+  },[])
 
   const retrieveMovies = async (tab) => {
     try {
@@ -85,6 +96,8 @@ const WishlistTab = () => {
 
   return (
     <div>
+      {loaded ?
+        <React.Fragment>
       <Jumbotron fluid className="jumbotronWishlist">
         <Container fluid className = "hdr-container">
           <h1 className="display-2 hdr">Your Shelf</h1>
@@ -145,6 +158,11 @@ const WishlistTab = () => {
           </ListGroup>
         </Col>
       </Row>
+      </React.Fragment>
+       : <Row className = "justify-content-center">
+        <br/>
+        <h1 className = "m-5 p-5">Loading...<Spinner  /></h1>
+        </Row>}
     </div>
   );
 };

@@ -4,6 +4,7 @@ import "./style.css";
 import OMDbAPI from "../utils/OMDbAPI";
 import useDebounce from "../utils/debounceHook";
 import {useMovieContext} from "../utils/movieContext";
+import Shelf from "../images/shelf.jpg";
 import {MOVIE_ID} from "../utils/actions";
 import {
   Form,
@@ -15,7 +16,8 @@ import {
   ListGroupItem,
   Jumbotron, 
   Container,
-  Media
+  Media,
+  Spinner
 } from "reactstrap";
 
 
@@ -26,6 +28,7 @@ const [movies, setMovies] = useState([]);
 const [formObject, setFormObject] = useState({title: ""});
 const [state, dispatch] = useMovieContext();
 const history = useHistory();
+const [loaded, setLoaded] = useState(false);
 
 const debouncedSearchTerm = useDebounce(formObject, 600);
   // Load all movies and store them with setMovies
@@ -46,6 +49,15 @@ const debouncedSearchTerm = useDebounce(formObject, 600);
       })
     }
   }, [debouncedSearchTerm, state]);
+
+  useEffect( () => {
+    const jumboImg = new Image();
+    jumboImg.src = Shelf;
+    jumboImg.onload = () => {
+    setLoaded(true);
+    }
+
+  },[])
 
   // Loads all movies and sets state to movies that match search
   async function getMovies(title) {
@@ -89,6 +101,8 @@ const handleImg  = function(string) {
 
     return (
       <div>
+        {loaded ?
+        <React.Fragment>
     <Jumbotron fluid className="homeJumbo">
         <h1 className="display-3 hdr">Movie Search</h1>
     </Jumbotron>
@@ -153,6 +167,11 @@ const handleImg  = function(string) {
           </Col>
         </Row>
       </Container>
+      </React.Fragment>
+       : <Row className = "justify-content-center">
+        <br/>
+        <h1 className = "m-5 p-5">Loading...<Spinner  /></h1>
+        </Row>}
       </div>
       
     );

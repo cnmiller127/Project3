@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useMovieContext } from "../utils/movieContext";
+import Theater from "../images/theater.jpg";
 import {
   TabContent,
   TabPane,
@@ -16,8 +17,8 @@ import {
   Container,
   Media,
   Badge,
+  Spinner,
 } from "reactstrap";
-import Theater from "../images/theater.jpg";
 import { MOVIE_ID } from "../utils/actions";
 import classnames from "classnames";
 import SqlAPI from "../utils/SQL-API";
@@ -29,6 +30,7 @@ const LibraryTab = () => {
   const [movieList, setMovieList] = useState(moviesArray);
   const [state, dispatch] = useMovieContext();
   const history = useHistory();
+  const [loaded, setLoaded] = useState(false);
 
   const toggle = (tab) => {
     if (activeTab !== tab) setActiveTab(tab);
@@ -37,6 +39,15 @@ const LibraryTab = () => {
   useEffect(() => {
     retrieveMovies(activeTab);
   }, [activeTab]);
+
+  useEffect( () => {
+    const jumboImg = new Image();
+    jumboImg.src = Theater;
+    jumboImg.onload = () => {
+    setLoaded(true);
+    }
+
+  },[])
 
   const retrieveMovies = async (tab) => {
     try {
@@ -124,6 +135,8 @@ const LibraryTab = () => {
 
   return (
     <div>
+      {loaded ?
+        <React.Fragment>
       <Jumbotron fluid className="jumbotronLibrary">
         <Container fluid>
           <h1 className="display-3 hdr">Your Shelf</h1>
@@ -411,6 +424,11 @@ const LibraryTab = () => {
           </TabContent>
         </Col>
       </Row>
+      </React.Fragment>
+       : <Row className = "justify-content-center">
+        <br/>
+        <h1 className = "m-5 p-5">Loading...<Spinner  /></h1>
+        </Row>}
     </div>
   );
 };
