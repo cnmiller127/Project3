@@ -90,7 +90,7 @@ const handleImg  = function(string) {
     return (
       <div>
     <Jumbotron fluid className="homeJumbo">
-        <h1 className="display-3">Movie Search</h1>
+        <h1 className="display-3 hdr">Movie Search</h1>
     </Jumbotron>
         
     

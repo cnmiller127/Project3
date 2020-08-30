@@ -83,7 +83,23 @@ input {
 .infoBtn {
     margin-left: 10px;
 }
+.hdr {
+    display: inline-block;
+    font-size: 625%;
+    text-shadow:
+    -2px -2px 0 rgb(0, 0, 0),
+    2px -2px 0 rgb(0, 0, 0),
+    -2px 2px 0 rgb(0, 0, 0),
+    2px 2px 0 rgb(0, 0, 0);
+    vertical-align: middle;
+    color: rgb(252, 214, 0);
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 
+}
+/* -2px -2px 0 #000,
+2px -2px 0 #000,
+-2px 2px 0 #000,
+2px 2px 0 #000; */
 
 @media (min-width: 576px) {
     .mediaPoster {

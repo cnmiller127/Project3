@@ -86,14 +86,14 @@ const WishlistTab = () => {
   return (
     <div>
       <Jumbotron fluid className="jumbotronWishlist">
-        <Container fluid>
-          <h1 className="display-3">Your Shelf</h1>
+        <Container fluid className = "hdr-container">
+          <h1 className="display-2 hdr">Your Shelf</h1>
         </Container>
       </Jumbotron>
 
       <Row>
         <Col className="header" sm="12">
-          <h4>Your Wishlist</h4>
+          <h4 >Your Wishlist</h4>
         </Col>
       </Row>
       <Row>
