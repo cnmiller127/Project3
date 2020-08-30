@@ -47,13 +47,28 @@ function App() {
 
 // Pre-load images
     useEffect( () => {
+        var imageArr = [];
         images.forEach(img => {
             const jumboImg = new Image();
-            jumboImg.src = img; 
+            jumboImg.src = img;
+            jumboImg.onload = () => {
+                imageArr.push(true);
+            } 
         });
-        setLoaded(true);
+        if(imagesLoaded(imageArr)){
+            setLoaded(true);
+        }
+        
     
       },[])
+
+      const imagesLoaded = (imageArr) => {
+          console.log(imageArr);
+        imageArr.forEach(img => {
+           if(!img) return false;
+        });
+        return true;
+      }
 
 
     return (

@@ -368,7 +368,7 @@ function MovieDetail(props) {
             </Media>
           </Col>
         </Row>
-      ) : null}
+      ) : <Row className = "justify-content-center"><br/><h1>Loading...</h1></Row>}
     </Container>
   );
 }
