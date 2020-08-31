@@ -34,6 +34,7 @@ function MovieDetail(props) {
       retrieveMovie(movieState).then((res) => {
         console.log(res);
         setMovie(res);
+        console.log(movie);
       });
     } else if (localStorage.getItem("movie")) {
       const getStor = JSON.parse(localStorage.getItem("movie"));
@@ -41,6 +42,7 @@ function MovieDetail(props) {
       retrieveMovie(getStor).then((res) => {
         console.log(res);
         setMovie(res);
+        console.log(movie);
       });
     }
   }, []);
@@ -306,7 +308,7 @@ function MovieDetail(props) {
     if (string !== "N/A") {
       return string;
     } else {
-      return "https://bit.ly/3hxWg5k";
+      return "https://i.imgur.com/FIxkRxV.png";
     }
   };
 
