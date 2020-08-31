@@ -51,11 +51,15 @@ const debouncedSearchTerm = useDebounce(formObject, 600);
   }, [debouncedSearchTerm, state]);
 
   useEffect( () => {
-    const jumboImg = new Image();
-    jumboImg.src = Shelf;
-    jumboImg.onload = () => {
-    setLoaded(true);
+    new Promise((resolve, reject)  => {
+      const jumboImg = new Image();
+      jumboImg.src = Shelf;
+      jumboImg.onload = () => {
+      setLoaded(true);
+      resolve();
     }
+    jumboImg.onerror = reject();
+    });
 
   },[])
 

@@ -41,11 +41,15 @@ const LibraryTab = () => {
   }, [activeTab]);
 
   useEffect( () => {
-    const jumboImg = new Image();
-    jumboImg.src = Theater;
-    jumboImg.onload = () => {
-    setLoaded(true);
+    new Promise((resolve, reject)  => {
+      const jumboImg = new Image();
+      jumboImg.src = Theater;
+      jumboImg.onload = () => {
+      setLoaded(true);
+      resolve();
     }
+    jumboImg.onerror = reject();
+    });
 
   },[])
 

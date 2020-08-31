@@ -30,11 +30,15 @@ const WishlistTab = () => {
   }, []);
 
   useEffect( () => {
-    const jumboImg = new Image();
-    jumboImg.src = Wish;
-    jumboImg.onload = () => {
-    setLoaded(true);
+    new Promise((resolve, reject)  => {
+      const jumboImg = new Image();
+      jumboImg.src = Wish;
+      jumboImg.onload = () => {
+      setLoaded(true);
+      resolve();
     }
+    jumboImg.onerror = reject();
+    });
 
   },[])
 
