@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from 'react-router-dom';
-// import {NavContext} from "../../src/UserContext";
 import "./style.css";
 import OMDbAPI from "../utils/OMDbAPI";
 import useDebounce from "../utils/debounceHook";
 import {useMovieContext} from "../utils/movieContext";
+import Shelf from "../images/shelf.jpg";
 import {MOVIE_ID} from "../utils/actions";
 import {
   Form,
@@ -16,20 +16,21 @@ import {
   ListGroupItem,
   Jumbotron, 
   Container,
-  Media
+  Media,
+  Spinner
 } from "reactstrap";
 
 
 
- const MembersTab = () => {
+const MembersTab = () => {
   // Setting our component's initial state
 const [movies, setMovies] = useState([]);
 const [formObject, setFormObject] = useState({title: ""});
-
 const [state, dispatch] = useMovieContext();
 const history = useHistory();
+const [loaded, setLoaded] = useState(false);
 
-const debouncedSearchTerm = useDebounce(formObject, 800);
+const debouncedSearchTerm = useDebounce(formObject, 600);
   // Load all movies and store them with setMovies
   useEffect( () => {
     console.log(state);
@@ -50,7 +51,15 @@ const debouncedSearchTerm = useDebounce(formObject, 800);
   }, [debouncedSearchTerm, state]);
 
   useEffect( () => {
-    const jumboImg = new Image();
+    new Promise((resolve, reject)  => {
+      const jumboImg = new Image();
+      jumboImg.src = Shelf;
+      jumboImg.onload = () => {
+      setLoaded(true);
+      resolve();
+    }
+    jumboImg.onerror = reject();
+    });
 
   },[])
 
@@ -94,19 +103,21 @@ const handleImg  = function(string) {
   }
 }
 
-
-    return ( 
+    return (
       <div>
+        {loaded ?
+        <React.Fragment>
     <Jumbotron fluid className="homeJumbo">
-      <h1 className="display-3">Movie Search</h1>
+        <h1 className="hdr">Movie Search</h1>
     </Jumbotron>
+        
     
       <Container fluid>
         <Row>
           <Col className="searchBody" sm="6">
           
            
-            <label className="label">Search by title or...: </label>
+            <label className="label">Search by title: </label>
             <Form onSubmit = {event => {event.preventDefault()}}>
               <Input
                 onChange={handleInputChange}
@@ -153,12 +164,20 @@ const handleImg  = function(string) {
               </ListGroup>
               </div>
             ) : (
-              <h3 className="label">No Results to Display</h3>
+              <Row className="justify-content-center">
+                <h3 className="label pt-3">No Results to Display</h3>
+              </Row>
             )}
           </Col>
         </Row>
       </Container>
+      </React.Fragment>
+       : <Row className = "justify-content-center">
+        <br/>
+        <h1 className = "m-5 p-5">Loading...<Spinner  /></h1>
+        </Row>}
       </div>
+      
     );
   }
 

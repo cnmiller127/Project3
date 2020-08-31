@@ -11,21 +11,36 @@ import {
   Container,
   Media,
   Badge,
+  Spinner
 } from "reactstrap";
 import { MOVIE_ID } from "../utils/actions";
 import SqlAPI from "../utils/SQL-API";
+import Wish from "../images/wish.jpg";
 import "./wishlist.css";
 
 const WishlistTab = () => {
   var moviesArray = [];
   const [movieList, setMovieList] = useState(moviesArray);
-
   const [state, dispatch] = useMovieContext();
   const history = useHistory();
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     retrieveMovies();
   }, []);
+
+  useEffect( () => {
+    new Promise((resolve, reject)  => {
+      const jumboImg = new Image();
+      jumboImg.src = Wish;
+      jumboImg.onload = () => {
+      setLoaded(true);
+      resolve();
+    }
+    jumboImg.onerror = reject();
+    });
+
+  },[])
 
   const retrieveMovies = async (tab) => {
     try {
@@ -85,15 +100,17 @@ const WishlistTab = () => {
 
   return (
     <div>
+      {loaded ?
+        <React.Fragment>
       <Jumbotron fluid className="jumbotronWishlist">
-        <Container fluid>
-          <h1 className="display-3">Your Shelf</h1>
+        <Container fluid className = "hdr-container">
+          <h1 className="hdr">Your Shelf</h1>
         </Container>
       </Jumbotron>
 
       <Row>
         <Col className="header" sm="12">
-          <h4>Your Wishlist</h4>
+          <h4 >Your Wishlist</h4>
         </Col>
       </Row>
       <Row>
@@ -145,6 +162,11 @@ const WishlistTab = () => {
           </ListGroup>
         </Col>
       </Row>
+      </React.Fragment>
+       : <Row className = "justify-content-center">
+        <br/>
+        <h1 className = "m-5 p-5">Loading...<Spinner  /></h1>
+        </Row>}
     </div>
   );
 };

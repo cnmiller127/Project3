@@ -28,16 +28,10 @@ input {
 .homeJumbo {
     align-content: center;
     text-align: center;
-    height: 200px;
-    background-image: url("https://bit.ly/2Qri4DN");
+    background-image: url("../images/shelf.jpg");
     background-position: center 50%;
     background-size: cover;
     color: white;
-    outline-color: black;
-    outline-width: thick;
-    outline-style: solid;
-    text-shadow: 2px 2px black;
-    border-radius: 0;
 }
 
 .active.nav-link {
@@ -89,10 +83,31 @@ input {
 .infoBtn {
     margin-left: 10px;
 }
+.hdr {
+    display: inline-block;
+    text-shadow:
+    -2px -2px 0 rgb(0, 0, 0),
+    2px -2px 0 rgb(0, 0, 0),
+    -2px 2px 0 rgb(0, 0, 0),
+    2px 2px 0 rgb(0, 0, 0);
+    vertical-align: middle;
+    color: rgb(252, 214, 0);
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 
+}
+
+
+@media (max-width: 576px) {
+    .hdr {
+        font-size: 50px;
+    }
+}
 @media (min-width: 576px) {
     .mediaPoster {
         float: left;
+    }
+    .hdr {
+        font-size: 80px;
     }
 }
 
@@ -101,10 +116,16 @@ input {
         margin-left: 35px;
         margin-bottom: 40px;
     }
+    .hdr {
+        font-size: 100px;
+    }
 }
 
 @media (min-width: 992px) {
     .backBtn {
         margin-left: 55px;
+    }
+    .hdr {
+        font-size: 120px;
     }
 }

@@ -52,11 +52,11 @@ function NavTab () {
                         <NavLink tag = {Link} to="/wishlist">Wishlist</NavLink>
                       </NavItem>
                       <NavItem className = "d-inline d-lg-none">
-                      <NavLink className="float-right text-primary" onClick={() => logout() } tag = {Link} to="/logout">Log out</NavLink>
+                      <NavLink className="float-right text-primary" onClick={() => logout() } tag = {Link} to="/login">Log out</NavLink>
                       </NavItem>
                     </Nav>
                     <NavbarText className = "d-none d-lg-inline"> Hi, {username}</NavbarText> 
-                    <NavLink className="float-right d-none d-lg-inline text-primary" onClick={() => logout() } tag = {Link} to="/logout">Log out</NavLink>
+                    <NavLink className="float-right d-none d-lg-inline text-primary" onClick={() => logout() } tag = {Link} to="/login">Log out</NavLink>
                   </Collapse>
                 </Navbar>
 
