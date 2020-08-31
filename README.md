@@ -11,20 +11,6 @@ I WANT TO be able to catalog the movies I own and sort them by what format I own
 
 SO THAT I can better understand my library of movies, and so that I do not purchase doubles.
 
-## Scripts
-### Install
-    npm install
-### Run (production)
-    npm start
-### Run (dev)
-    npm run watch
-### Tests (includes linting)
-    npm test
-### Linting by itself (only detects errors)
-    npm run lint
-### Autofix linting errors where pssible (Note: this will not necessarily fix all of them)
-    npm run fix
-
 ## Demo Images
 ![Search Page ](./demoImages/searchPage.png)
 ![Results](./demoImages/result.png)
