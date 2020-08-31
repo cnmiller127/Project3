@@ -99,7 +99,7 @@ const handleImg  = function(string) {
   if (string !== "N/A") {
     return string;
   } else {
-    return "https://bit.ly/3hxWg5k";
+    return "https://i.imgur.com/FIxkRxV.png";
   }
 }
 
