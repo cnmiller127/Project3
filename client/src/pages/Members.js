@@ -108,7 +108,7 @@ const handleImg  = function(string) {
         {loaded ?
         <React.Fragment>
     <Jumbotron fluid className="homeJumbo">
-        <h1 className="display-3 hdr">Movie Search</h1>
+        <h1 className="hdr">Movie Search</h1>
     </Jumbotron>
         
     

@@ -104,7 +104,7 @@ const WishlistTab = () => {
         <React.Fragment>
       <Jumbotron fluid className="jumbotronWishlist">
         <Container fluid className = "hdr-container">
-          <h1 className="display-2 hdr">Your Shelf</h1>
+          <h1 className="hdr">Your Shelf</h1>
         </Container>
       </Jumbotron>
 

@@ -143,7 +143,7 @@ const LibraryTab = () => {
         <React.Fragment>
       <Jumbotron fluid className="jumbotronLibrary">
         <Container fluid>
-          <h1 className="display-3 hdr">Your Shelf</h1>
+          <h1 className="hdr">Your Shelf</h1>
         </Container>
       </Jumbotron>
 

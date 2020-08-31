@@ -85,7 +85,6 @@ input {
 }
 .hdr {
     display: inline-block;
-    font-size: 625%;
     text-shadow:
     -2px -2px 0 rgb(0, 0, 0),
     2px -2px 0 rgb(0, 0, 0),
@@ -96,14 +95,19 @@ input {
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 
 }
-/* -2px -2px 0 #000,
-2px -2px 0 #000,
--2px 2px 0 #000,
-2px 2px 0 #000; */
 
+
+@media (max-width: 576px) {
+    .hdr {
+        font-size: 50px;
+    }
+}
 @media (min-width: 576px) {
     .mediaPoster {
         float: left;
+    }
+    .hdr {
+        font-size: 80px;
     }
 }
 
@@ -112,10 +116,16 @@ input {
         margin-left: 35px;
         margin-bottom: 40px;
     }
+    .hdr {
+        font-size: 100px;
+    }
 }
 
 @media (min-width: 992px) {
     .backBtn {
         margin-left: 55px;
+    }
+    .hdr {
+        font-size: 120px;
     }
 }
