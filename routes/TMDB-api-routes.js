@@ -50,6 +50,32 @@ app.get("/tmdb/person/movies", async function (req, res) {
         res.status(500).json(err);
     }
 }),
+// Get genre id
+app.get("/tmdb/genre", async function (req, res) {
+    try{
+        var query = `https://api.themoviedb.org/3/genre/movie/list?api_key=${KEY}&language=en-US`;       
+        let genres = await axios.get(query);
+        res.json(genres.data);
+    }
+    catch (err) {
+        res.status(500).json(err);
+    }
+}),
+    //get movies with searched genre id
+app.get("/tmdb/genre/movies", async function (req, res) {
+    try{
+        const id = req.query.id;
+        var query;
+        if(id){
+            query = `https://api.themoviedb.org/3/discover/movie?api_key=${KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&page=1&with_genres=${id}`;
+        }
+        let movie = await axios.get(query);
+        res.json(movie.data);
+    }
+    catch (err) {
+        res.status(500).json(err);
+    }
+}),
     //Get movie details including cast
   app.get("/tmdb/movieDetail", async function (req, res) {
       try{

@@ -69,6 +69,25 @@ const debouncedSearchTerm = useDebounce(formObject, 600);
         }
       });
       break;
+      case "Genre":
+        TMDbAPI.getGenres().then(res => {
+          if(getGenreID(formObject.text, res.data.genres)) {
+          const genreID = getGenreID(formObject.text, res.data.genres);
+          console.log(genreID);
+          TMDbAPI.searchMoviesByGenre(genreID).then(res => {
+            res = res.data.results;
+        if(res!== undefined && res.length !== 0){
+          res.forEach(element => {
+            element.saved = false;
+          });
+          console.log(res);
+          setMovies(res);
+        }
+          });
+        }
+      });
+      break;
+      default: break; 
     }
     }
   
@@ -96,6 +115,9 @@ const debouncedSearchTerm = useDebounce(formObject, 600);
         break;
       case "Person": 
         setSearchType("Person");
+        break;
+      case "Genre":
+        setSearchType("Genre");
         break;
       default: break;
     }
@@ -143,6 +165,14 @@ const handleImg  = function(poster) {
   }
 }
 
+const getGenreID = (searched, genres) => {
+ const genreObj = genres.find(genre => {
+  return genre.name.toLowerCase() === searched.trim().toLowerCase();
+});
+return genreObj.id;
+
+}
+
     return (
       <div>
         {loaded ?
@@ -156,8 +186,9 @@ const handleImg  = function(poster) {
         <Row>
           <Col className="searchBody" sm="6">
           <label className="label">Search by: </label>
-          <Button value = "Title" onClick = {searchClick} >Title</Button>
-          <Button value = "Person" onClick = {searchClick} >Person</Button>
+          <Button className = "searchBtn" value = "Title" color = "primary" active onClick = {searchClick} >Title</Button>
+          <Button className = "searchBtn" value = "Person" color="danger" onClick = {searchClick} >Person</Button>
+          <Button className = "searchBtn" value = "Genre" color="info" onClick = {searchClick} >Genre</Button>
             <Form onSubmit = {event => {event.preventDefault()}}>
               <Input
                 onChange={handleInputChange}

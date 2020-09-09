@@ -15,6 +15,12 @@ export default {
   searchMoviesByPerson: async function(id) {
     return await axios.get("/tmdb/person/movies", {params: {id: id}});
   },
+  getGenres: async function() {
+    return await axios.get("/tmdb/genre");
+  },
+  searchMoviesByGenre: async function(id) {
+    return await axios.get("/tmdb/genre/movies", {params: {id: id}});
+  },
 
   getMovieByID: async function(id) {
     return await axios.get("/tmdb/movieDetail", {params: {id: id}});

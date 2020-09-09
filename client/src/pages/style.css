@@ -50,6 +50,9 @@ input {
 .formatBtn {
     margin: 15px;
 }
+.searchBtn {
+    margin: 15px 1px 15px 1px;
+}
 
 .searchPoster {
     height: 250px;
