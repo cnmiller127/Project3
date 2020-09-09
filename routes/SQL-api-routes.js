@@ -94,7 +94,7 @@ module.exports = function (app) {
       db.Movie.destroy({
         where: {
           UserId: uid,
-          imdbID: req.params.id,
+          movie_id: req.params.id,
           wishlist: true
         },
       }).then(function (dbMovie) {
@@ -127,7 +127,7 @@ module.exports = function (app) {
       db.Movie.count({
         where: {
           UserId: uid,
-          imdbID: req.params.id,
+          movie_id: req.params.id,
           wishlist: true,
         },
       }).then((dbMovie) => {

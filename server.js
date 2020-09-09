@@ -29,7 +29,7 @@ app.use(passport.session());
 
 // Requiring our routes
 require("./routes/api-routes.js")(app);
-require("./routes/OMDB-api-routes")(app);
+require("./routes/TMDB-api-routes")(app);
 require("./routes/SQL-api-routes.js")(app);
 require("./routes/html-routes.js")(app);
 

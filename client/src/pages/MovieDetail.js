@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Media, Button, Row, Col, Container, Spinner } from "reactstrap";
 import { useHistory } from "react-router-dom";
 import SqlAPI from "../utils/SQL-API";
-import OMDbAPI from "../utils/OMDbAPI";
+import TMDbAPI from "../utils/TMDbAPI";
 import { useMovieContext } from "../utils/movieContext";
 
 function MovieDetail(props) {
@@ -14,7 +14,7 @@ function MovieDetail(props) {
     wishlist: "Show",
   });
   const [movie, setMovie] = useState({
-    imdbID: "",
+    movie_id: "",
     title: "",
     poster: "",
     year: "",
@@ -28,7 +28,7 @@ function MovieDetail(props) {
   const history = useHistory();
 
   useEffect(() => {
-    if (movieState.Title) {
+    if (movieState.title) {
       localStorage.setItem("movie", JSON.stringify(movieState));
       console.log(movieState);
       retrieveMovie(movieState).then((res) => {
@@ -49,7 +49,7 @@ function MovieDetail(props) {
 
   const retrieveMovie = async (movie) => {
     try {
-      let res = await OMDbAPI.getMovieByID(movie.imdbID);
+      let res = await TMDbAPI.getMovieByID(movie.movie_id);
       await checkUniqueWish(movie);
       // await checkUniqueLib(movie)
       //console.log(res.data);
@@ -72,7 +72,7 @@ function MovieDetail(props) {
   }, [buttonStatus]);
 
   const checkUniqueWish = async function (movie) {
-    const count = await SqlAPI.countEntriesWish(movie.imdbID);
+    const count = await SqlAPI.countEntriesWish(movie.movie_id);
     console.log(count.data);
     if (count.data > 0) {
       setButtonStatus({
@@ -115,20 +115,63 @@ function MovieDetail(props) {
   const deleteIfOnWish = async function (movie) {
     const isUnique = await checkUniqueWish(movie);
     if (!isUnique) {
-      SqlAPI.deleteWishlist(movie.imdbID);
+      SqlAPI.deleteWishlist(movie.movie_id);
     }
   };
+
+  const getCast = function (movie) {
+    var cast_string = "";
+    if(movie.credits.cast.length >= 5 )
+      for(var i = 0; i < 5; i++){
+        if(i < 4) {
+          cast_string += (movie.credits.cast[i].name + ", ");
+        }
+        else {
+          cast_string += movie.credits.cast[i].name;
+        }
+      }
+    else {
+      for(var i = 0; i < movie.credits.cast.length; i++){
+        if(i < movie.credits.cast.length - 1){
+          cast_string += (movie.credits.cast[i].name + ", ");
+        }
+        else {
+          cast_string += movie.credits.cast[i].name;
+        }
+      }
+
+    }
+    return cast_string;
+  }
+
+  const getDirector = function (movie) {
+    var director_string = "";
+    const crew = movie.credits.crew; 
+    const directorArr = crew.filter(person => {
+      return person.job === "Director"
+    });
+    for(var i = 0; i < directorArr.length; i++){
+      if(i < directorArr.length - 1){
+        director_string += (directorArr[i].name + ", ");
+      }
+      else {
+        director_string += directorArr[i].name;
+      }
+    }
+    return director_string;
+    
+  }
 
   const handleSave = function (e) {
     e.preventDefault();
     const movieObject = {
-      imdbID: movie.imdbID,
-      title: movie.Title,
-      poster: movie.Poster,
-      year: movie.Year,
-      synopsis: movie.Plot,
-      director: movie.Director,
-      cast: movie.Actors,
+      movie_id: movie.id,
+      title: movie.title,
+      poster: handleImg(movie.poster_path),
+      year: movie.release_date,
+      synopsis: movie.overview,
+      director: getDirector(movie),
+      cast: getCast(movie),
       format: this.value,
       wishlist: false,
     };
@@ -162,13 +205,13 @@ function MovieDetail(props) {
   const handleSaveToWish = function (e) {
     e.preventDefault();
     const movieObject = {
-      imdbID: movie.imdbID,
-      title: movie.Title,
-      poster: movie.Poster,
-      year: movie.Year,
-      synopsis: movie.Plot,
-      director: movie.Director,
-      cast: movie.Actors,
+      movie_id: movie.id,
+      title: movie.title,
+      poster: handleImg(movie.poster_path),
+      year: movie.release_date,
+      synopsis: movie.overview,
+      director: getDirector(movie),
+      cast: getCast(movie),
       format: "",
       wishlist: true,
     };
@@ -304,13 +347,14 @@ function MovieDetail(props) {
     }
   };
 
-  const handleImg = function (string) {
-    if (string !== "N/A") {
-      return string;
+  const handleImg  = function(poster) {
+    if (poster) {
+      var imgString = "https://image.tmdb.org/t/p/w500/" + poster;
+      return imgString;
     } else {
       return "https://i.imgur.com/FIxkRxV.png";
     }
-  };
+  }
 
   const handleSynopsis = function (string) {
     if (string !== "N/A") {
@@ -325,7 +369,7 @@ function MovieDetail(props) {
       <h1 className="detailHeader">
         <strong>Movie Details</strong>
       </h1>
-      {movie.Title ? (
+      {movie.title ? (
         <Row>
           <Col xs="12" sm="10">
             <div>
@@ -343,23 +387,23 @@ function MovieDetail(props) {
                 <Media
                   className="largePoster"
                   object
-                  src={handleImg(movie.Poster)}
-                  alt={movie.Title}
+                  src={handleImg(movie.poster_path)}
+                  alt={movie.title}
                 />
               </Media>
               <Media body className="movieBody">
                 <Media heading className="title">
                   <h2>
                     <strong>
-                      {movie.Title} {"(" + movie.Year + ")"}
+                      {movie.title} {"(" + movie.release_date + ")"}
                     </strong>
                   </h2>
                 </Media>
-                <strong>Directed by {movie.Director}</strong>
+                <strong>Directed by {getDirector(movie)}</strong>
                 <hr />
-                <strong>Starring: {movie.Actors}</strong>
+                <strong>Starring: {getCast(movie)}</strong>
                 <hr />
-                {handleSynopsis(movie.Plot)}
+                {handleSynopsis(movie.overview)}
                 <hr />
                 <h3>Own it? Click the formats you own</h3>
                 {renderButtons(movie)}

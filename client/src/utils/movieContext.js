@@ -9,8 +9,8 @@ const reducer = (state, action) => {
         case MOVIE_ID:
             return {
                 ...state,
-                Title: action.data.Title,
-                imdbID: action.data.imdbID
+                title: action.data.title,
+                movie_id: action.data.movie_id
             }
         default:
             return state;
@@ -19,8 +19,8 @@ const reducer = (state, action) => {
 
 const MovieProvider = ({value, ...props}) => {
     const initialState = value || {
-        Title: "",
-        imdbID: ""
+        title: "",
+        movie_id: ""
     };
     const [movieState, movieDispatch] = useReducer(reducer, initialState);
     return <Provider value={[movieState, movieDispatch]} {...props} />

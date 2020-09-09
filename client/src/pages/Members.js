@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from 'react-router-dom';
 import "./style.css";
-import OMDbAPI from "../utils/OMDbAPI";
+import TMDbAPI from "../utils/TMDbAPI";
 import useDebounce from "../utils/debounceHook";
 import {useMovieContext} from "../utils/movieContext";
 import Shelf from "../images/shelf.jpg";
@@ -25,7 +25,8 @@ import {
 const MembersTab = () => {
   // Setting our component's initial state
 const [movies, setMovies] = useState([]);
-const [formObject, setFormObject] = useState({title: ""});
+const [formObject, setFormObject] = useState({text: ""});
+const [searchType, setSearchType] = useState("Title");
 const [state, dispatch] = useMovieContext();
 const history = useHistory();
 const [loaded, setLoaded] = useState(false);
@@ -33,12 +34,15 @@ const [loaded, setLoaded] = useState(false);
 const debouncedSearchTerm = useDebounce(formObject, 600);
   // Load all movies and store them with setMovies
   useEffect( () => {
-    console.log(state);
-    if(!formObject.title){
+    console.log(formObject.text);
+    if(!formObject.text){
       return;
     }
     if(debouncedSearchTerm){
-      getMovies(formObject.title).then(res => {
+      switch(searchType){
+      case "Title":
+        TMDbAPI.searchMoviesByTitle(formObject.text).then(res => {
+          res = res.data.results;
         if(res!== undefined && res.length !== 0){
           res.forEach(element => {
             element.saved = false;
@@ -46,9 +50,29 @@ const debouncedSearchTerm = useDebounce(formObject, 600);
           console.log(res);
           setMovies(res);
         }
-      })
+      });
+      break;
+      case "Person":
+        TMDbAPI.getPersonID(formObject.text).then(res => {
+        if(res.data.results[0]){
+          const id = res.data.results[0].id
+          TMDbAPI.searchMoviesByPerson(id).then(res => {
+            res = res.data.results;
+        if(res!== undefined && res.length !== 0){
+          res.forEach(element => {
+            element.saved = false;
+          });
+          console.log(res);
+          setMovies(res);
+        }
+          });
+        }
+      });
+      break;
     }
-  }, [debouncedSearchTerm, state]);
+    }
+  
+  }, [debouncedSearchTerm, state, searchType]);
 
   useEffect( () => {
     new Promise((resolve, reject)  => {
@@ -63,12 +87,27 @@ const debouncedSearchTerm = useDebounce(formObject, 600);
 
   },[])
 
+  const searchClick = (event) => {
+    event.preventDefault();
+    console.log(event.target.value)
+    switch(event.target.value){
+      case "Title": 
+        setSearchType("Title");
+        break;
+      case "Person": 
+        setSearchType("Person");
+        break;
+      default: break;
+    }
+
+  }
+
   // Loads all movies and sets state to movies that match search
   async function getMovies(title) {
     try{
-      let res = await OMDbAPI.searchMovies(title);
+      let res = await TMDbAPI.searchMovies(title);
       console.log(res.data);
-      return res.data.Search;
+      return res.data.results;
     }
     catch(err){
         throw err;
@@ -83,21 +122,22 @@ function handleInputChange(event) {
 };
 
 const handleClick = (movie) => {
-  if(movie.imdbID && movie.Title){
+  if(movie.id && movie.title){
   dispatch({
     type: MOVIE_ID,
     data: {
-      Title: movie.Title, 
-      imdbID: movie.imdbID
+      title: movie.title, 
+      movie_id: movie.id
     }
   })
   history.push("/movieDetail");
   }
 }
 
-const handleImg  = function(string) {
-  if (string !== "N/A") {
-    return string;
+const handleImg  = function(poster) {
+  if (poster) {
+    var imgString = "https://image.tmdb.org/t/p/w500/" + poster;
+    return imgString;
   } else {
     return "https://i.imgur.com/FIxkRxV.png";
   }
@@ -115,14 +155,14 @@ const handleImg  = function(string) {
       <Container fluid>
         <Row>
           <Col className="searchBody" sm="6">
-          
-           
-            <label className="label">Search by title: </label>
+          <label className="label">Search by: </label>
+          <Button value = "Title" onClick = {searchClick} >Title</Button>
+          <Button value = "Person" onClick = {searchClick} >Person</Button>
             <Form onSubmit = {event => {event.preventDefault()}}>
               <Input
                 onChange={handleInputChange}
-                name="title"
-                placeholder="Title"
+                name="text"
+                placeholder= {searchType}
               />
             </Form>
             </Col>
@@ -137,7 +177,7 @@ const handleImg  = function(string) {
               <ListGroup>
                 {movies.map(movie => {
                   return (
-                    <ListGroupItem key={movie.imdbID}>
+                    <ListGroupItem key={movie.id}>
                       {/* <img className="movie-img pr-2 poster" src={handleImg(movie.Poster)} />
                         <strong>
                           {movie.Title}
@@ -145,15 +185,15 @@ const handleImg  = function(string) {
                         <hr></hr>
                         <Button color="info">Movie Details</Button> */}
                       <Media>
-                            <Media left href={handleImg(movie.Poster)}>
+                            <Media left href={handleImg(movie.poster_path)}>
                               <Media className="searchPoster"
                                 object
-                                src={handleImg(movie.Poster)}
-                                alt={movie.Title}
+                                src={handleImg(movie.poster_path)}
+                                alt={movie.title}
                               />
                             </Media>
                             <Media body className="movieBody">
-                              <Media heading><strong>{movie.Title}</strong></Media>
+                              <Media heading><strong>{movie.title}</strong></Media>
                               <br />
                               <Button onClick={() => handleClick(movie)} color="info">More Info</Button>
                             </Media>
