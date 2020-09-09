@@ -166,10 +166,15 @@ const handleImg  = function(poster) {
 }
 
 const getGenreID = (searched, genres) => {
- const genreObj = genres.find(genre => {
+ var genreObj = genres.find(genre => {
   return genre.name.toLowerCase() === searched.trim().toLowerCase();
 });
+if(genreObj) {
 return genreObj.id;
+}
+else{
+  return undefined;
+}
 
 }
 
