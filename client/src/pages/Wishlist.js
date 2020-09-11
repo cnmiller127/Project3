@@ -86,12 +86,12 @@ const WishlistTab = () => {
   };
 
   const handleClick = (movie) => {
-    if (movie.imdbID && movie.title) {
+    if (movie.id && movie.title) {
       dispatch({
         type: MOVIE_ID,
         data: {
-          Title: movie.title,
-          imdbID: movie.imdbID,
+          title: movie.title,
+          movie_id: movie.movie_id,
         },
       });
       history.push("/movieDetail");
